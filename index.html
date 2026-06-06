@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>FZ750 LOGGER</title>
+    <style>
+        body { margin: 0; padding: 10px; background-color: #111; color: #fff; font-family: 'Arial', sans-serif; box-sizing: border-box; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; overflow:hidden; }
+        
+        /* 接続ボタンとヘッダー */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .header { font-size: 20px; font-style: italic; font-weight: bold; color: #eee; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .connect-btn { background: #1a5fff; color: white; border: none; padding: 6px 15px; font-size: 12px; font-weight: bold; border-radius: 20px; box-shadow: 0 0 10px rgba(26,95,255,0.5); cursor: pointer; }
+        .connect-btn.connected { background: #0c0; box-shadow: 0 0 10px rgba(0,200,0,0.5); }
+
+        .box { background: rgba(20, 20, 20, 0.9); border: 1px solid #333; border-radius: 8px; padding: 10px; box-shadow: inset 0 0 15px rgba(0,0,0,0.6); }
+        .bank-container { text-align: center; }
+        .bank-title { font-size: 11px; color: #888; letter-spacing: 1px; }
+        .bank-value { font-size: 54px; font-weight: bold; font-style: italic; line-height: 1; margin: 5px 0; }
+        .bank-unit { font-size: 36px; margin-left: 2px; }
+        .unit-L { color: #0c0; } .unit-R { color: #d11; }
+        
+        /* バンクインジケーター */
+        .bar-wrap { position: relative; width: 100%; height: 34px; margin: 10px auto 5px; display: flex; justify-content: center; align-items: center; background: #050505; border-radius: 4px; overflow: hidden; }
+        .seg-group { display: flex; align-items: center; gap: 3px; }
+        .seg { height: 26px; clip-path: polygon(100% 0%, 40% 0%, 0% 50%, 40% 100%, 100% 100%, 65% 50%); }
+        .seg-r { clip-path: polygon(0% 0%, 60% 0%, 100% 50%, 60% 100%, 0% 100%, 35% 50%); }
+        .spacer { width: 15px; }
+        .cursor { position: absolute; top: 0; width: 6px; height: 34px; background: #fff; border-radius: 2px; box-shadow: 0 0 8px #000; left: calc(50% - 3px); transition: left 0.08s ease-out; }
+        
+        .max-bank-wrap { display: flex; justify-content: space-around; margin-top: 5px; font-size: 16px; font-weight: bold; }
+        .max-L { color: #0c0; } .max-R { color: #d11; }
+        
+        /* メーターエリア */
+        .meters-container { position: relative; height: 220px; margin: 10px 0; }
+        .meter-box { position: absolute; width: 150px; height: 150px; background: rgba(10,10,10,0.95); border: 2px solid #1a5fff; border-radius: 50%; box-shadow: 0 0 15px rgba(0,95,255,0.3), inset 0 0 15px rgba(0,0,0,0.8); display:flex; flex-direction:column; justify-content:center; align-items:center; }
+        .tacho-pos { top: 0; left: 5px; } .speed-pos { bottom: 0; right: 5px; }
+        .m-title { font-size: 11px; color: #777; font-weight: bold; }
+        .m-val { font-size: 28px; font-weight: bold; font-family: monospace; }
+        
+        /* 下部グリッド */
+        .bottom-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 10px; }
+        .info-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; border-bottom: 1px solid #222; padding-bottom: 2px; }
+        .info-label { color: #888; } .info-val { font-weight: bold; font-family: monospace; }
+        .status-green { color: #0c0; text-shadow: 0 0 5px rgba(0,200,0,0.5); }
+        .volt-val { font-size: 32px; font-weight: bold; font-style: italic; text-align: center; font-family: monospace; line-height: 1; margin-top: 5px; }
+        .volt-unit { font-size: 16px; color: #888; font-style: normal; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <button class="connect-btn" id="connectBtn" onclick="connectBLE()">CONNECT</button>
+        <div class="header">FZ750 LOGGER</div>
+        <div style="width:75px;"></div> </div>
+
+    <div class="box bank-container">
+        <div class="bank-title">BANK ANGLE</div>
+        <div class="bank-value" id="bankText">0</div>
+        <div class="bar-wrap">
+            <div class="seg-group">
+                <div class="seg" style="width:10px; background:#0c0;"></div>
+                <div class="seg" style="width:14px; background:#2e0;"></div>
+                <div class="seg" style="width:18px; background:#5f0;"></div>
+                <div class="seg" style="width:22px; background:#8f0;"></div>
+                <div class="seg" style="width:26px; background:#cf0;"></div>
+                <div class="seg" style="width:30px; background:#ff0;"></div>
+            </div>
+            <div class="spacer"></div>
+            <div class="seg-group">
+                <div class="seg seg-r" style="width:30px; background:#ff0;"></div>
+                <div class="seg seg-r" style="width:26px; background:#fc0;"></div>
+                <div class="seg seg-r" style="width:22px; background:#f90;"></div>
+                <div class="seg seg-r" style="width:18px; background:#f60;"></div>
+                <div class="seg seg-r" style="width:14px; background:#f30;"></div>
+                <div class="seg seg-r" style="width:10px; background:#f00;"></div>
+            </div>
+            <div class="cursor" id="cursor"></div>
+        </div>
+        <div class="max-bank-wrap">
+            <div class="max-L">MAX L <span id="maxL">0</span>°</div>
+            <div class="max-R">MAX R <span id="maxR text-align">0</span>°</div>
+        </div>
+    </div>
+
+    <div class="meters-container">
+        <div class="meter-box tacho-pos"><div class="m-title">RPM</div><div class="m-val" id="rpmVal">0</div></div>
+        <div class="meter-box speed-pos"><div class="m-title">km/h</div><div class="m-val" id="speedVal">0</div></div>
+    </div>
+
+    <div class="bottom-grid">
+        <div class="box">
+            <div class="info-row"><span class="info-label">📡 GPS</span><span class="info-val status-green">3D FIX</span></div>
+            <div class="info-row"><span class="info-label">⏱️ TOP</span><span class="info-val" id="topSpeedVal">0 km/h</span></div>
+            <div class="info-row"><span class="info-label">⏱️ LAP</span><span class="info-val">01:22.15</span></div>
+            <div class="info-row" style="border:none; margin:0;"><span class="info-label">🏆 BEST</span><span class="info-val" style="color:#d0f;">01:20.78</span></div>
+        </div>
+        <div class="box" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+                <div class="volt-val" id="voltVal">0.0<span class="volt-unit">v</span></div>
+                <div style="text-align:center; font-size:9px; color:#666;">BATTERY</div>
+            </div>
+            <div style="border-top:1px solid #333; padding-top:4px;">
+                <div class="info-row" style="border:none; margin:0; font-size:11px;"><span>💾 SD</span><span class="status-green">LOGGING</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
+        const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+
+        async function connectBLE() {
+            try {
+                // 1. BLEデバイスのスキャンと選択
+                const device = await navigator.bluetooth.requestDevice({
+                    filters: [{ name: 'FZ750_LOGGER_BLE' }],
+                    optionalServices: [SERVICE_UUID]
+                });
+
+                document.getElementById('connectBtn').innerText = "PAIRING...";
+                
+                // 2. GATTサーバーに接続
+                const server = await device.gatt.connect();
+                // 3. サービスの取得
+                const service = await server.getPrimaryService(SERVICE_UUID);
+                // 4. 特性（データの通り道）を取得
+                const characteristic = await service.getCharacteristic(CHARACTERISTIC_UUID);
+
+                // 5. データが届いたときの処理（Notifyの開始）
+                await characteristic.startNotifications();
+                characteristic.addEventListener('characteristicvaluechanged', handleDataChanged);
+
+                // 接続成功時のUI変更
+                document.getElementById('connectBtn').innerText = "CONNECTED";
+                document.getElementById('connectBtn').classList.add('connected');
+                
+                device.addEventListener('gattserverdisconnected', onDisconnected);
+            } catch (error) {
+                console.log("接続エラー: " + error);
+                document.getElementById('connectBtn').innerText = "CONNECT";
+            }
+        }
+
+        // ESP32から送られてきたカンマ区切りデータをバラバラにして画面に反映する関数
+        function handleDataChanged(event) {
+            let decoder = new TextDecoder('utf-8');
+            let strData = decoder.decode(event.target.value);
+            
+            // カンマで分割して配列にする [bank, maxL, maxR, rpm, speed, volt]
+            let data = strData.split(',');
+            if (data.length >= 6) {
+                let bank = parseFloat(data[0]);
+                let maxL = parseFloat(data[1]);
+                let maxR = parseFloat(data[2]);
+                let rpm  = parseInt(data[3]);
+                let speed = parseFloat(data[4]);
+                let volt = parseFloat(data[5]);
+
+                // バンク角表示の書き換え
+                if(Math.abs(bank) < 1.5) {
+                    document.getElementById('bankText').innerHTML = "0";
+                } else if(bank < 0) {
+                    document.getElementById('bankText').innerHTML = Math.abs(bank).toFixed(0) + '<span class="bank-unit unit-L">L</span>';
+                } else {
+                    document.getElementById('bankText').innerHTML = Math.abs(bank).toFixed(0) + '<span class="bank-unit unit-R">R</span>';
+                }
+
+                // バーインジケーターのカーソル移動
+                let cPos = 50 + (bank * 0.38);
+                document.getElementById('cursor').style.left = 'calc(' + cPos + '% - 3px)';
+
+                // 各種数値の更新
+                document.getElementById('maxL').innerText = Math.abs(maxL).toFixed(0);
+                document.getElementById('maxR').innerText = Math.abs(maxR).toFixed(0);
+                document.getElementById('rpmVal').innerText = rpm;
+                document.getElementById('speedVal').innerText = speed.toFixed(0);
+                document.getElementById('topSpeedVal').innerText = speed.toFixed(0) + ' km/h';
+                document.getElementById('voltVal').innerHTML = volt.toFixed(1) + '<span class="volt-unit">v</span>';
+            }
+        }
+
+        function onDisconnected() {
+            document.getElementById('connectBtn').innerText = "CONNECT";
+            document.getElementById('connectBtn').classList.remove('connected');
+            alert("Bluetoothが切断されました。");
+        }
+    </script>
+</body>
+</html>

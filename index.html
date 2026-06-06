@@ -5,103 +5,434 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>FZ750 LOGGER</title>
     <style>
-        body { margin: 0; padding: 10px; background-color: #111; color: #fff; font-family: 'Arial', sans-serif; box-sizing: border-box; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; overflow:hidden; }
-        
-        /* 接続ボタンとヘッダー */
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .header { font-size: 20px; font-style: italic; font-weight: bold; color: #eee; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .connect-btn { background: #1a5fff; color: white; border: none; padding: 6px 15px; font-size: 12px; font-weight: bold; border-radius: 20px; box-shadow: 0 0 10px rgba(26,95,255,0.5); cursor: pointer; }
-        .connect-btn.connected { background: #0c0; box-shadow: 0 0 10px rgba(0,200,0,0.5); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-color: #050505; 
+            color: #ffffff; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            user-select: none;
+        }
 
-        .box { background: rgba(20, 20, 20, 0.9); border: 1px solid #333; border-radius: 8px; padding: 10px; box-shadow: inset 0 0 15px rgba(0,0,0,0.6); }
-        .bank-container { text-align: center; }
-        .bank-title { font-size: 11px; color: #888; letter-spacing: 1px; }
-        .bank-value { font-size: 54px; font-weight: bold; font-style: italic; line-height: 1; margin: 5px 0; }
-        .bank-unit { font-size: 36px; margin-left: 2px; }
-        .unit-L { color: #0c0; } .unit-R { color: #d11; }
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .connect-btn {
+            background: #d11; /* 未接続時は赤、接続時は鮮やかな緑 */
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 900;
+            border-radius: 20px;
+            box-shadow: 0 0 12px rgba(221,17,17,0.4);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .connect-btn.connected {
+            background: #00e000;
+            box-shadow: 0 0 15px rgba(0,224,0,0.6);
+        }
+        .header-title {
+            font-size: 22px;
+            font-weight: 900;
+            font-style: italic;
+            color: #e0e0e0;
+            letter-spacing: 3px;
+            text-align: right;
+            text-shadow: 0 0 8px rgba(255,255,255,0.2);
+        }
+
+        /* Common Box Style */
+        .box {
+            background: #121212;
+            border: 1px solid #282828;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Bank Angle Section */
+        .bank-container {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .section-label {
+            font-size: 11px;
+            color: #8c8c8c;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .bank-value-wrap {
+            font-size: 64px;
+            font-weight: 900;
+            font-style: italic;
+            line-height: 1.1;
+            margin: 2px 0;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            letter-spacing: 2px;
+        }
+        .bank-direction {
+            font-size: 42px;
+            margin-left: 4px;
+            font-weight: 900;
+        }
+        .dir-L { color: #00e000; }
+        .dir-R { color: #ff2222; }
+
+        /* Visual Indicator */
+        .indicator-wrap {
+            position: relative;
+            width: 100%;
+            margin: 6px 0;
+        }
+        .seg-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2px;
+            width: 100%;
+            padding: 0 4px;
+        }
+        .seg-clip {
+            height: 24px;
+            flex: 1;
+            background: #222;
+            transition: background 0.1s ease;
+        }
+        /* 矢印形状の再現 */
+        .seg-l { clip-path: polygon(100% 0%, 35% 0%, 0% 50%, 35% 100%, 100% 100%, 65% 50%); }
+        .seg-r { clip-path: polygon(0% 0%, 65% 0%, 100% 50%, 65% 100%, 0% 100%, 35% 50%); }
         
-        /* バンクインジケーター */
-        .bar-wrap { position: relative; width: 100%; height: 34px; margin: 10px auto 5px; display: flex; justify-content: center; align-items: center; background: #050505; border-radius: 4px; overflow: hidden; }
-        .seg-group { display: flex; align-items: center; gap: 3px; }
-        .seg { height: 26px; clip-path: polygon(100% 0%, 40% 0%, 0% 50%, 40% 100%, 100% 100%, 65% 50%); }
-        .seg-r { clip-path: polygon(0% 0%, 60% 0%, 100% 50%, 60% 100%, 0% 100%, 35% 50%); }
-        .spacer { width: 15px; }
-        .cursor { position: absolute; top: 0; width: 6px; height: 34px; background: #fff; border-radius: 2px; box-shadow: 0 0 8px #000; left: calc(50% - 3px); transition: left 0.08s ease-out; }
+        .indicator-scale {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            margin-top: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #555555;
+        }
+        .scale-val.active {
+            color: #8c8c8c;
+        }
+        .cursor-bar {
+            position: absolute;
+            top: -2px;
+            width: 8px;
+            height: 28px;
+            background: #ffffff;
+            border-radius: 3px;
+            box-shadow: 0 0 10px #ffffff, 0 0 5px rgba(0,0,0,0.8);
+            left: calc(50% - 4px);
+            transition: left 0.05s ease-out;
+            z-index: 10;
+        }
+
+        /* Max Bank Row */
+        .max-bank-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .max-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px;
+            background: #161616;
+        }
+        .max-title {
+            font-size: 10px;
+            color: #777777;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .max-val {
+            font-size: 24px;
+            font-weight: 900;
+            margin-top: 2px;
+            font-family: monospace;
+        }
+        .max-val span { font-size: 16px; margin-right: 4px; font-weight: 900;}
+
+        /* Twin Meters Section */
+        .meters-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 8px;
+            flex: 1;
+            align-items: center;
+        }
+        .meter-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .meter-svg {
+            width: 100%;
+            height: 100%;
+        }
+        .meter-center-text {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .meter-num {
+            font-size: 30px;
+            font-weight: 900;
+            font-family: monospace;
+            line-height: 1;
+        }
+        .meter-unit {
+            font-size: 11px;
+            color: #666666;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        /* Bottom Grid Section */
+        .bottom-zone {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+        .gps-lap-box {
+            width: 100%;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .info-table td {
+            padding: 5px 4px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .info-table tr:not(:last-child) {
+            border-bottom: 1px solid #1f1f1f;
+        }
+        .info-icon-label {
+            color: #8c8c8c;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .info-value-data {
+            text-align: right;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .text-green { color: #00e000; text-shadow: 0 0 5px rgba(0,224,0,0.3); }
+        .text-pink { color: #e000e0; text-shadow: 0 0 5px rgba(224,0,224,0.3); }
+
+        /* Battery & SD Row */
+        .sub-info-row {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 8px;
+            width: 100%;
+        }
+        .volt-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+        }
+        .volt-display {
+            font-size: 28px;
+            font-weight: 900;
+            font-style: italic;
+            font-family: 'Impact', sans-serif;
+            line-height: 1;
+        }
+        .volt-label-sub {
+            font-size: 9px;
+            color: #666;
+            margin-top: 4px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
         
-        .max-bank-wrap { display: flex; justify-content: space-around; margin-top: 5px; font-size: 16px; font-weight: bold; }
-        .max-L { color: #0c0; } .max-R { color: #d11; }
-        
-        /* メーターエリア */
-        .meters-container { position: relative; height: 220px; margin: 10px 0; }
-        .meter-box { position: absolute; width: 150px; height: 150px; background: rgba(10,10,10,0.95); border: 2px solid #1a5fff; border-radius: 50%; box-shadow: 0 0 15px rgba(0,95,255,0.3), inset 0 0 15px rgba(0,0,0,0.8); display:flex; flex-direction:column; justify-content:center; align-items:center; }
-        .tacho-pos { top: 0; left: 5px; } .speed-pos { bottom: 0; right: 5px; }
-        .m-title { font-size: 11px; color: #777; font-weight: bold; }
-        .m-val { font-size: 28px; font-weight: bold; font-family: monospace; }
-        
-        /* 下部グリッド */
-        .bottom-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 10px; }
-        .info-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; border-bottom: 1px solid #222; padding-bottom: 2px; }
-        .info-label { color: #888; } .info-val { font-weight: bold; font-family: monospace; }
-        .status-green { color: #0c0; text-shadow: 0 0 5px rgba(0,200,0,0.5); }
-        .volt-val { font-size: 32px; font-weight: bold; font-style: italic; text-align: center; font-family: monospace; line-height: 1; margin-top: 5px; }
-        .volt-unit { font-size: 16px; color: #888; font-style: normal; }
+        .sd-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 8px;
+        }
+        .sd-header-status {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .sd-label { color: #8c8c8c; display: flex; align-items: center; gap: 4px; }
+        .sd-bar-container {
+            display: flex;
+            gap: 2px;
+            margin-top: 6px;
+            width: 100%;
+        }
+        .sd-bar-chunk {
+            height: 10px;
+            flex: 1;
+            background: #222;
+        }
+        .sd-bar-chunk.active {
+            background: #555555;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Top Connection Bar -->
     <div class="top-bar">
-        <button class="connect-btn" id="connectBtn" onclick="connectBLE()">CONNECT</button>
-        <div class="header">FZ750 LOGGER</div>
-        <div style="width:75px;"></div> </div>
+        <button class="connect-btn" id="connectBtn" onclick="connectBLE()">Connect</button>
+        <div class="header-title">FZ750 LOGGER</div>
+    </div>
 
+    <!-- Bank Angle & Indicator -->
     <div class="box bank-container">
-        <div class="bank-title">BANK ANGLE</div>
-        <div class="bank-value" id="bankText">0</div>
-        <div class="bar-wrap">
-            <div class="seg-group">
-                <div class="seg" style="width:10px; background:#0c0;"></div>
-                <div class="seg" style="width:14px; background:#2e0;"></div>
-                <div class="seg" style="width:18px; background:#5f0;"></div>
-                <div class="seg" style="width:22px; background:#8f0;"></div>
-                <div class="seg" style="width:26px; background:#cf0;"></div>
-                <div class="seg" style="width:30px; background:#ff0;"></div>
+        <div class="section-label">Bank Angle</div>
+        <div class="bank-value-wrap" id="bankText">0</div>
+        
+        <div class="indicator-wrap">
+            <div class="cursor-bar" id="cursor"></div>
+            <div class="seg-container" id="segContainer">
+                <!-- JavaScriptで24個のセグメントを生成 -->
             </div>
-            <div class="spacer"></div>
-            <div class="seg-group">
-                <div class="seg seg-r" style="width:30px; background:#ff0;"></div>
-                <div class="seg seg-r" style="width:26px; background:#fc0;"></div>
-                <div class="seg seg-r" style="width:22px; background:#f90;"></div>
-                <div class="seg seg-r" style="width:18px; background:#f60;"></div>
-                <div class="seg seg-r" style="width:14px; background:#f30;"></div>
-                <div class="seg seg-r" style="width:10px; background:#f00;"></div>
-            </div>
-            <div class="cursor" id="cursor"></div>
         </div>
-        <div class="max-bank-wrap">
-            <div class="max-L">MAX L <span id="maxL">0</span>°</div>
-            <div class="max-R">MAX R <span id="maxR">0</span>°</div>
+        
+        <div class="indicator-scale">
+            <span class="scale-val">-60°</span>
+            <span class="scale-val">-30°</span>
+            <span class="scale-val active">0°</span>
+            <span class="scale-val">+30°</span>
+            <span class="scale-val">+60°</span>
         </div>
     </div>
 
-    <div class="meters-container">
-        <div class="meter-box tacho-pos"><div class="m-title">RPM</div><div class="m-val" id="rpmVal">0</div></div>
-        <div class="meter-box speed-pos"><div class="m-title">km/h</div><div class="m-val" id="speedVal">0</div></div>
+    <!-- Max Bank Box -->
+    <div class="max-bank-row">
+        <div class="box max-box">
+            <span class="max-title">MAX LEFT</span>
+            <span class="max-val max-L" style="color: #00e000;"><span class="dir-L">L</span><id id="maxL">0</id>°</span>
+        </div>
+        <div class="box max-box">
+            <span class="max-title">MAX RIGHT</span>
+            <span class="max-val max-R" style="color: #ff2222;"><span class="dir-R">R</span><id id="maxR">0</id>°</span>
+        </div>
     </div>
 
-    <div class="bottom-grid">
-        <div class="box">
-            <div class="info-row"><span class="info-label">📡 GPS</span><span class="info-val status-green">3D FIX</span></div>
-            <div class="info-row"><span class="info-label">⏱️ TOP</span><span class="info-val" id="topSpeedVal">0 km/h</span></div>
-            <div class="info-row"><span class="info-label">⏱️ LAP</span><span class="info-val">01:22.15</span></div>
-            <div class="info-row" style="border:none; margin:0;"><span class="info-label">🏆 BEST</span><span class="info-val" style="color:#d0f;">01:20.78</span></div>
-        </div>
-        <div class="box" style="display:flex; flex-direction:column; justify-content:space-between;">
-            <div>
-                <div class="volt-val" id="voltVal">0.0<span class="volt-unit">v</span></div>
-                <div style="text-align:center; font-size:9px; color:#666;">BATTERY</div>
+    <!-- Twin Circular Meters -->
+    <div class="meters-row">
+        <!-- RPM Meter -->
+        <div class="box meter-wrapper">
+            <svg class="meter-svg" viewBox="0 0 200 200">
+                <!-- Background track -->
+                <path d="M 40 160 A 80 80 0 1 1 160 160" fill="none" stroke="#1a1a1a" stroke-width="8" />
+                <!-- Redline track -->
+                <path d="M 130 51 A 80 80 0 0 1 160 160" fill="none" stroke="#500" stroke-width="8" />
+                <!-- Active Ticks / Scale Marks -->
+                <g id="rpmTicks"></g>
+                <!-- Needle -->
+                <line id="rpmNeedle" x1="100" y1="100" x2="45" y2="155" stroke="#ff2222" stroke-width="3" stroke-linecap="round" style="transform-origin: 100px 100px; transform: rotate(0deg); transition: transform 0.1s ease-out;" />
+                <circle cx="100" cy="100" r="6" fill="#111" stroke="#ff2222" stroke-width="2" />
+                <!-- Labels inside SVG -->
+                <text x="100" y="45" fill="#888" font-size="10" font-weight="bold" text-anchor="middle">RPM</text>
+                <text x="100" y="58" fill="#555" font-size="8" font-weight="bold" text-anchor="middle">x1000</text>
+            </svg>
+            <div class="meter-center-text">
+                <span class="meter-num" id="rpmVal">0</span>
             </div>
-            <div style="border-top:1px solid #333; padding-top:4px;">
-                <div class="info-row" style="border:none; margin:0; font-size:11px;"><span>💾 SD</span><span class="status-green">LOGGING</span></div>
+        </div>
+
+        <!-- Speed Meter -->
+        <div class="box meter-wrapper">
+            <svg class="meter-svg" viewBox="0 0 200 200">
+                <!-- Background track -->
+                <path d="M 40 160 A 80 80 0 1 1 160 160" fill="none" stroke="#1a1a1a" stroke-width="8" />
+                <!-- Active Ticks / Scale Marks -->
+                <g id="speedTicks"></g>
+                <!-- Needle -->
+                <line id="speedNeedle" x1="100" y1="100" x2="45" y2="155" stroke="#ff2222" stroke-width="3" stroke-linecap="round" style="transform-origin: 100px 100px; transform: rotate(0deg); transition: transform 0.1s ease-out;" />
+                <circle cx="100" cy="100" r="6" fill="#111" stroke="#ff2222" stroke-width="2" />
+                <!-- Labels inside SVG -->
+                <text x="100" y="45" fill="#888" font-size="10" font-weight="bold" text-anchor="middle">km/h</text>
+            </svg>
+            <div class="meter-center-text">
+                <span class="meter-num" id="speedVal">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Info Zone -->
+    <div class="bottom-zone">
+        <!-- GPS & Lap Times Box -->
+        <div class="box gps-lap-box">
+            <table class="info-table">
+                <tr>
+                    <td class="info-icon-label">📡 GPS</td>
+                    <td class="info-value-data text-green">3D FIX</td>
+                </tr>
+                <tr>
+                    <td class="info-icon-label">⏱️ TOP SPEED</td>
+                    <td class="info-value-data" id="topSpeedVal">0 km/h</td>
+                </tr>
+                <tr>
+                    <td class="info-icon-label">⏱️ LAP TIME</td>
+                    <td class="info-value-data">01:22.15</td>
+                </tr>
+                <tr>
+                    <td class="info-icon-label">🏆 BEST LAP</td>
+                    <td class="info-value-data text-pink">01:20.78</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Battery & SD Storage Row -->
+        <div class="sub-info-row">
+            <div class="box volt-box">
+                <div class="volt-display" style="color: #e0e0e0;"><span id="voltVal">0.0</span><span style="font-size: 16px; font-style: normal; margin-left: 2px; color: #888;">v</span></div>
+                <div class="volt-label-sub">🔋 BATTERY</div>
+            </div>
+            <div class="box sd-box">
+                <div class="sd-header-status">
+                    <span class="sd-label">💾 SD CARD</span>
+                    <span class="text-green" style="font-size: 10px;">LOGGING</span>
+                </div>
+                <div class="sd-bar-container" id="sdBarContainer">
+                    <!-- JSでバーチャンクを生成 -->
+                </div>
             </div>
         </div>
     </div>
@@ -109,46 +440,111 @@
     <script>
         const SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
         const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+        
+        let maxSpeed = 0;
 
+        // 初期化処理
+        window.addEventListener('DOMContentLoaded', () => {
+            buildBankIndicator();
+            buildMeterTicks('rpmTicks', 14, 270, -225);
+            buildMeterTicks('speedTicks', 14, 270, -225); // 20km/h刻み想定の目盛り数
+            buildSDBar();
+        });
+
+        // バンク角インジケーターセグメントビルド
+        function buildBankIndicator() {
+            const container = document.getElementById('segContainer');
+            container.innerHTML = '';
+            // 全24セグメント (左12、右12)
+            for(let i=0; i<24; i++) {
+                const seg = document.createElement('div');
+                seg.className = `seg-clip ${i < 12 ? 'seg-l' : 'seg-r'}`;
+                seg.id = `seg-${i}`;
+                
+                // 固定カラー配置設定 (実機スクショ色再現)
+                if (i >= 0 && i <= 3) seg.style.backgroundColor = '#005500'; // 濃い緑
+                else if (i >= 4 && i <= 7) seg.style.backgroundColor = '#00aa00'; // 緑
+                else if (i >= 8 && i <= 11) seg.style.backgroundColor = '#aaea00'; // 黄緑〜黄
+                else if (i >= 12 && i <= 14) seg.style.backgroundColor = '#eaea00'; // 黄色
+                else if (i >= 15 && i <= 18) seg.style.backgroundColor = '#ff8800'; // オレンジ
+                else if (i >= 19 && i <= 23) seg.style.backgroundColor = '#ff0000'; // 赤
+                
+                // 初期輝度は暗く落とす(未点灯状態を表現)
+                seg.style.opacity = '0.25';
+                container.appendChild(seg);
+            }
+        }
+
+        // アナログメーター目盛り生成
+        function buildMeterTicks(elementId, count, totalAngle, startAngle) {
+            const g = document.getElementById(elementId);
+            for(let i=0; i<=count; i++) {
+                const angle = startAngle + (i * (totalAngle / count));
+                const rad = (angle * Math.PI) / 180;
+                
+                // 外側座標と内側座標
+                const x1 = 100 + 80 * Math.cos(rad);
+                const y1 = 100 + 80 * Math.sin(rad);
+                const x2 = 100 + 72 * Math.cos(rad);
+                const y2 = 100 + 72 * Math.sin(rad);
+                
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", x1);
+                line.setAttribute("y1", y1);
+                line.setAttribute("x2", x2);
+                line.setAttribute("y2", y2);
+                
+                // RPMメーターのレッドゾーン処理 (10000RPM以上)
+                if(elementId === 'rpmTicks' && i >= 10) {
+                    line.setAttribute("stroke", "#ff2222");
+                } else {
+                    line.setAttribute("stroke", "#444");
+                }
+                line.setAttribute("stroke-width", "2");
+                g.appendChild(line);
+            }
+        }
+
+        // SDカード下部インジケーター
+        function buildSDBar() {
+            const container = document.getElementById('sdBarContainer');
+            for(let i=0; i<16; i++) {
+                const chunk = document.createElement('div');
+                chunk.className = 'sd-bar-chunk' + (i < 11 ? ' active' : '');
+                container.appendChild(chunk);
+            }
+        }
+
+        // BLE通信ロジック
         async function connectBLE() {
             try {
-                // 1. BLEデバイスのスキャンと選択
                 const device = await navigator.bluetooth.requestDevice({
                     filters: [{ name: 'FZ750_LOGGER_BLE' }],
                     optionalServices: [SERVICE_UUID]
                 });
-
-                document.getElementById('connectBtn').innerText = "PAIRING...";
-                
-                // 2. GATTサーバーに接続
+                document.getElementById('connectBtn').innerText = "Pairing...";
                 const server = await device.gatt.connect();
-                // 3. サービスの取得
                 const service = await server.getPrimaryService(SERVICE_UUID);
-                // 4. 特性（データの通り道）を取得
                 const characteristic = await service.getCharacteristic(CHARACTERISTIC_UUID);
-
-                // 5. データが届いたときの処理（Notifyの開始）
                 await characteristic.startNotifications();
                 characteristic.addEventListener('characteristicvaluechanged', handleDataChanged);
-
-                // 接続成功時のUI変更
+                
                 document.getElementById('connectBtn').innerText = "CONNECTED";
                 document.getElementById('connectBtn').classList.add('connected');
-                
                 device.addEventListener('gattserverdisconnected', onDisconnected);
             } catch (error) {
-                console.log("接続エラー: " + error);
-                document.getElementById('connectBtn').innerText = "CONNECT";
+                console.log("BLE Connection Error: " + error);
+                document.getElementById('connectBtn').innerText = "Connect";
+                document.getElementById('connectBtn').classList.remove('connected');
             }
         }
 
-        // ESP32から送られてきたカンマ区切りデータをバラバラにして画面に反映する関数
+        // データ解析とUI更新
         function handleDataChanged(event) {
             let decoder = new TextDecoder('utf-8');
             let strData = decoder.decode(event.target.value);
-            
-            // カンマで分割して配列にする [bank, maxL, maxR, rpm, speed, volt]
             let data = strData.split(',');
+            
             if (data.length >= 6) {
                 let bank = parseFloat(data[0]);
                 let maxL = parseFloat(data[1]);
@@ -157,33 +553,71 @@
                 let speed = parseFloat(data[4]);
                 let volt = parseFloat(data[5]);
 
-                // バンク角表示の書き換え
+                if (isNaN(bank) || isNaN(maxL) || isNaN(maxR) || isNaN(rpm) || isNaN(speed) || isNaN(volt)) return;
+
+                // 1. バンク角デジタル表示更新
                 if(Math.abs(bank) < 1.5) {
-                    document.getElementById('bankText').innerHTML = "0";
+                    document.getElementById('bankText').innerHTML = `0<span class="bank-direction" style="color:#666;">°</span>`;
                 } else if(bank < 0) {
-                    document.getElementById('bankText').innerHTML = Math.abs(bank).toFixed(0) + '<span class="bank-unit unit-L">L</span>';
+                    document.getElementById('bankText').innerHTML = `${Math.abs(bank).toFixed(0)}<span class="bank-direction dir-L">L</span>`;
                 } else {
-                    document.getElementById('bankText').innerHTML = Math.abs(bank).toFixed(0) + '<span class="bank-unit unit-R">R</span>';
+                    document.getElementById('bankText').innerHTML = `${Math.abs(bank).toFixed(0)}<span class="bank-direction dir-R">R</span>`;
+                }
+                
+                // 2. バンク角インジケーターカーソル＆点灯制御
+                // -60°〜+60° を 0%〜100% にマッピング
+                let cPos = 50 + (bank * (50 / 60));
+                cPos = Math.max(0, Math.min(100, cPos));
+                document.getElementById('cursor').style.left = `calc(${cPos}% - 4px)`;
+                
+                // 傾き加減に応じてセグメントの輝度をアクティブ化
+                let centerIndex = 12; // 0°基準境界
+                let targetIndex = Math.floor(centerIndex + (bank * (12 / 60)));
+                targetIndex = Math.max(0, Math.min(23, targetIndex));
+                
+                for(let i=0; i<24; i++) {
+                    const seg = document.getElementById(`seg-${i}`);
+                    if(bank < 0 && i >= targetIndex && i < 12) {
+                        seg.style.opacity = '1.0'; // 左に傾いている時の点灯
+                    } else if(bank > 0 && i >= 12 && i <= targetIndex) {
+                        seg.style.opacity = '1.0'; // 右に傾いている時の点灯
+                    } else {
+                        seg.style.opacity = '0.25'; // 未達セグメントはディム
+                    }
                 }
 
-                // バーインジケーターのカーソル移動
-                let cPos = 50 + (bank * 0.38);
-                document.getElementById('cursor').style.left = 'calc(' + cPos + '% - 3px)';
-
-                // 各種数値の更新
+                // 3. MAXバンク角更新
                 document.getElementById('maxL').innerText = Math.abs(maxL).toFixed(0);
                 document.getElementById('maxR').innerText = Math.abs(maxR).toFixed(0);
+                
+                // 4. RPMメーター更新 (0〜14000rpmを計270度円弧にマッピング)
                 document.getElementById('rpmVal').innerText = rpm;
+                let rpmAngle = (rpm / 14000) * 270;
+                rpmAngle = Math.min(270, Math.max(0, rpmAngle));
+                document.getElementById('rpmNeedle').style.transform = `rotate(${rpmAngle}deg)`;
+                
+                // 5. 車速メーター更新 (0〜280km/hを計270度円弧にマッピング)
                 document.getElementById('speedVal').innerText = speed.toFixed(0);
-                document.getElementById('topSpeedVal').innerText = speed.toFixed(0) + ' km/h';
-                document.getElementById('voltVal').innerHTML = volt.toFixed(1) + '<span class="volt-unit">v</span>';
+                let speedAngle = (speed / 280) * 270;
+                speedAngle = Math.min(270, Math.max(0, speedAngle));
+                document.getElementById('speedNeedle').style.transform = `rotate(${speedAngle}deg)`;
+                
+                // 最高速のロギング保持
+                if(speed > maxSpeed) {
+                    maxSpeed = speed;
+                    document.getElementById('topSpeedVal').innerText = `${maxSpeed.toFixed(0)} km/h`;
+                }
+
+                // 6. 電圧表示更新
+                document.getElementById('voltVal').innerText = volt.toFixed(1);
             }
         }
 
         function onDisconnected() {
-            document.getElementById('connectBtn').innerText = "CONNECT";
+            document.getElementById('connectBtn').innerText = "Connect";
             document.getElementById('connectBtn').classList.remove('connected');
-            alert("Bluetoothが切断されました。");
+            buildBankIndicator(); // 輝度リセット
+            console.log("BLE Disconnected.");
         }
     </script>
 </body>

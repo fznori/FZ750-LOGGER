@@ -10,6 +10,7 @@
             background-color: #050505; 
             color: #ffffff; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            /* iPhone Safariの下部バー領域を考慮した可変高さ(dvh)に修正し見切れを防止 */
             height: 100dvh; 
             padding: 10px;
             display: flex;
@@ -20,54 +21,132 @@
         }
 
         /* Top Bar */
-        .top-bar { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 6px; }
-        .btn-group { display: flex; gap: 6px; }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 6px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 6px;
+        }
+        .connect-btn {
+            background: #d11; 
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            font-size: 11px;
+            font-weight: 900;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(221,17,17,0.4);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .connect-btn.connected {
+            background: #00e000;
+            box-shadow: 0 0 15px rgba(0,224,0,0.6);
+        }
         
-        .connect-btn { background: #d11; color: white; border: none; padding: 6px 14px; font-size: 11px; font-weight: 900; border-radius: 20px; box-shadow: 0 0 10px rgba(221,17,17,0.4); cursor: pointer; text-transform: uppercase; transition: all 0.3s ease; }
-        .connect-btn.connected { background: #00e000; box-shadow: 0 0 15px rgba(0,224,0,0.6); }
-        
-        .mode-btn { background: #333; color: #aaa; border: 1px solid #555; padding: 6px 14px; font-size: 11px; font-weight: 900; border-radius: 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s ease; }
-        .mode-btn.circuit { background: #e000e0; color: #fff; border-color: #e000e0; box-shadow: 0 0 10px rgba(224,0,224,0.5); }
+        /* 新設：モード切替ボタン */
+        .mode-btn {
+            background: #333;
+            color: #aaa;
+            border: 1px solid #555;
+            padding: 6px 14px;
+            font-size: 11px;
+            font-weight: 900;
+            border-radius: 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .mode-btn.circuit {
+            background: #e000e0;
+            color: #fff;
+            border-color: #e000e0;
+            box-shadow: 0 0 10px rgba(224,0,224,0.5);
+        }
 
-        .header-title { font-size: 20px; font-weight: 900; font-style: italic; color: #e0e0e0; letter-spacing: 2px; text-align: right; }
+        .header-title {
+            font-size: 20px;
+            font-weight: 900;
+            font-style: italic;
+            color: #e0e0e0;
+            letter-spacing: 2px;
+            text-align: right;
+            text-shadow: 0 0 8px rgba(255,255,255,0.2);
+        }
 
-        /* Box Style */
-        .box { background: #121212; border: 1px solid #282828; border-radius: 10px; padding: 8px; box-shadow: inset 0 0 15px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.5); }
+        /* Common Box Style */
+        .box {
+            background: #121212;
+            border: 1px solid #282828;
+            border-radius: 10px;
+            padding: 8px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.5);
+        }
 
-        /* Bank Section */
+        /* Bank Angle Section */
         .bank-container { text-align: center; width: 100%; margin-bottom: 6px; }
         .section-label { font-size: 11px; color: #8c8c8c; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
-        .bank-value-wrap { font-size: 60px; font-weight: 900; font-style: italic; line-height: 1; margin: 2px 0; font-family: 'Impact', sans-serif; }
+        .bank-value-wrap { font-size: 60px; font-weight: 900; font-style: italic; line-height: 1; margin: 2px 0; font-family: 'Impact', sans-serif; letter-spacing: 2px; }
         .bank-direction { font-size: 38px; margin-left: 4px; font-weight: 900; }
         .dir-L { color: #00e000; } .dir-R { color: #ff2222; }
 
-        /* Indicator */
+        /* Visual Indicator */
         .indicator-wrap { position: relative; width: 100%; margin: 6px 0; }
         .seg-container { display: flex; justify-content: center; align-items: center; gap: 2px; width: 100%; padding: 0 4px; }
-        .seg-clip { height: 22px; flex: 1; background: #222; }
+        .seg-clip { height: 22px; flex: 1; background: #222; transition: background 0.1s ease; }
         .seg-l { clip-path: polygon(100% 0%, 35% 0%, 0% 50%, 35% 100%, 100% 100%, 65% 50%); }
         .seg-r { clip-path: polygon(0% 0%, 65% 0%, 100% 50%, 65% 100%, 0% 100%, 35% 50%); }
-        .cursor-bar { position: absolute; top: -2px; width: 8px; height: 26px; background: #ffffff; border-radius: 3px; left: calc(50% - 4px); z-index: 10; }
+        
+        .indicator-scale { display: flex; justify-content: space-between; padding: 0 10px; margin-top: 4px; font-size: 10px; font-weight: bold; color: #555555; }
+        .scale-val.active { color: #8c8c8c; }
+        .cursor-bar { position: absolute; top: -2px; width: 8px; height: 26px; background: #ffffff; border-radius: 3px; box-shadow: 0 0 10px #ffffff, 0 0 5px rgba(0,0,0,0.8); left: calc(50% - 4px); transition: left 0.05s ease-out; z-index: 10; }
 
-        /* Max Rows */
-        .max-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 6px; }
-        .max-box { display: flex; flex-direction: column; align-items: center; padding: 4px; background: #161616; cursor: pointer; }
-        .max-title { font-size: 10px; color: #777; font-weight: bold; }
-        .max-val { font-size: 22px; font-weight: 900; font-family: monospace; }
+        /* Max Bank Row */
+        .max-bank-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 6px; }
+        .max-box { display: flex; flex-direction: column; align-items: center; padding: 4px; background: #161616; }
+        .max-title { font-size: 10px; color: #777777; font-weight: bold; letter-spacing: 1px; }
+        .max-val { font-size: 22px; font-weight: 900; margin-top: 2px; font-family: monospace; }
+        .max-val span { font-size: 14px; margin-right: 4px; font-weight: 900;}
 
-        /* Meters */
+        /* Twin Meters Section */
         .meters-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 6px; flex: 1; align-items: center; }
-        .meter-wrapper { position: relative; width: 100%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .meter-wrapper { position: relative; width: 100%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; }
         .meter-svg { width: 100%; height: 100%; }
-        .meter-center-text { position: absolute; text-align: center; top: 55%; left: 50%; transform: translate(-50%, -50%); }
+        .meter-center-text { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; top: 55%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
         .meter-num { font-size: 28px; font-weight: 900; font-family: monospace; line-height: 1; }
-        .m-max-val { font-size: 9px; color: #ff0; font-family: monospace; margin-top: 2px; }
+        .meter-unit { font-size: 10px; color: #666666; font-weight: bold; margin-top: 2px; }
 
-        /* Bottom Zone */
+        /* Bottom Info Zone */
         .bottom-zone { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+        .gps-lap-box { width: 100%; }
         .info-table { width: 100%; border-collapse: collapse; }
         .info-table td { padding: 4px; font-size: 12px; font-weight: bold; }
-        .text-green { color: #00e000; } .text-pink { color: #e000e0; }
+        .info-table tr:not(:last-child) { border-bottom: 1px solid #1f1f1f; }
+        .info-icon-label { color: #8c8c8c; display: flex; align-items: center; gap: 6px; }
+        .info-value-data { text-align: right; font-family: monospace; font-size: 14px; }
+        .text-green { color: #00e000; text-shadow: 0 0 5px rgba(0,224,0,0.3); }
+        .text-pink { color: #e000e0; text-shadow: 0 0 5px rgba(224,0,224,0.3); }
+
+        /* Battery & SD Row */
+        .sub-info-row { display: grid; grid-template-columns: 1fr 1.1fr; gap: 8px; width: 100%; }
+        .volt-box { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 6px; }
+        .volt-display { font-size: 26px; font-weight: 900; font-style: italic; font-family: 'Impact', sans-serif; line-height: 1; color: #e0e0e0; }
+        .volt-label-sub { font-size: 9px; color: #666; margin-top: 4px; letter-spacing: 1px; font-weight: bold; }
+        
+        .sd-box { display: flex; flex-direction: column; justify-content: space-between; padding: 6px; }
+        .sd-header-status { display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; }
+        .sd-label { color: #8c8c8c; display: flex; align-items: center; gap: 4px; }
+        .sd-bar-container { display: flex; gap: 2px; margin-top: 6px; width: 100%; }
+        .sd-bar-chunk { height: 8px; flex: 1; background: #222; }
+        .sd-bar-chunk.active { background: #555; }
     </style>
 </head>
 <body>
@@ -83,119 +162,271 @@
     <div class="box bank-container">
         <div class="section-label">Bank Angle</div>
         <div class="bank-value-wrap" id="bankText">0</div>
-        <div class="indicator-wrap"><div class="cursor-bar" id="cursor"></div><div class="seg-container" id="segContainer"></div></div>
+        
+        <div class="indicator-wrap">
+            <div class="cursor-bar" id="cursor"></div>
+            <div class="seg-container" id="segContainer"></div>
+        </div>
+        
+        <div class="indicator-scale">
+            <span class="scale-val">-60°</span>
+            <span class="scale-val">-30°</span>
+            <span class="scale-val active">0°</span>
+            <span class="scale-val">+30°</span>
+            <span class="scale-val">+60°</span>
+        </div>
     </div>
 
-    <div class="max-row">
-        <div class="box max-box" onpointerdown="startReset('bank')" onpointerup="stopReset()">
-            <span class="max-title">MAX BANK (HOLD)</span>
-            <span class="max-val" id="maxBank">L0/R0°</span>
+    <div class="max-bank-row">
+        <div class="box max-box">
+            <span class="max-title">MAX LEFT</span>
+            <span class="max-val max-L" style="color: #00e000;"><span class="dir-L">L</span><span id="maxL">0</span>°</span>
         </div>
-        <div class="box volt-box" style="display:flex; flex-direction:column; align-items:center;">
-            <span class="max-title">BATTERY</span>
-            <span class="max-val" id="voltVal">0.0V</span>
+        <div class="box max-box">
+            <span class="max-title">MAX RIGHT</span>
+            <span class="max-val max-R" style="color: #ff2222;"><span class="dir-R">R</span><span id="maxR">0</span>°</span>
         </div>
     </div>
 
     <div class="meters-row">
-        <div class="box meter-wrapper" id="rpmArea" onpointerdown="startReset('rpm')" onpointerup="stopReset()">
+        <div class="box meter-wrapper">
             <svg class="meter-svg" viewBox="0 0 200 200">
                 <path d="M 40 160 A 80 80 0 1 1 160 160" fill="none" stroke="#1a1a1a" stroke-width="8" />
-                <line id="rpmNeedle" x1="100" y1="100" x2="45" y2="155" stroke="#ff2222" stroke-width="3" style="transform-origin: 100px 100px;" />
+                <path d="M 130 51 A 80 80 0 0 1 160 160" fill="none" stroke="#500" stroke-width="8" />
+                <g id="rpmTicks"></g>
+                <line id="rpmNeedle" x1="100" y1="100" x2="45" y2="155" stroke="#ff2222" stroke-width="3" stroke-linecap="round" style="transform-origin: 100px 100px; transform: rotate(0deg); transition: transform 0.1s ease-out;" />
+                <circle cx="100" cy="100" r="6" fill="#111" stroke="#ff2222" stroke-width="2" />
+                <text x="100" y="45" fill="#888" font-size="10" font-weight="bold" text-anchor="middle">RPM</text>
+                <text x="100" y="58" fill="#555" font-size="8" font-weight="bold" text-anchor="middle">x1000</text>
             </svg>
             <div class="meter-center-text">
-                <div class="meter-num" id="rpmVal">0</div>
-                <div class="m-max-val" id="maxRpm">MAX: 0</div>
+                <span class="meter-num" id="rpmVal">0</span>
             </div>
         </div>
-        <div class="box meter-wrapper" id="spdArea" onpointerdown="startReset('spd')" onpointerup="stopReset()">
+
+        <div class="box meter-wrapper">
             <svg class="meter-svg" viewBox="0 0 200 200">
                 <path d="M 40 160 A 80 80 0 1 1 160 160" fill="none" stroke="#1a1a1a" stroke-width="8" />
-                <line id="speedNeedle" x1="100" y1="100" x2="45" y2="155" stroke="#ff2222" stroke-width="3" style="transform-origin: 100px 100px;" />
+                <g id="speedTicks"></g>
+                <line id="speedNeedle" x1="100" y1="100" x2="45" y2="155" stroke="#ff2222" stroke-width="3" stroke-linecap="round" style="transform-origin: 100px 100px; transform: rotate(0deg); transition: transform 0.1s ease-out;" />
+                <circle cx="100" cy="100" r="6" fill="#111" stroke="#ff2222" stroke-width="2" />
+                <text x="100" y="45" fill="#888" font-size="10" font-weight="bold" text-anchor="middle">km/h</text>
             </svg>
             <div class="meter-center-text">
-                <div class="meter-num" id="speedVal">0</div>
-                <div class="m-max-val" id="maxSpd">MAX: 0</div>
+                <span class="meter-num" id="speedVal">0</span>
             </div>
         </div>
     </div>
 
     <div class="bottom-zone">
-        <div class="box" id="infoBox" style="display:none;">
+        <div class="box gps-lap-box">
             <table class="info-table">
-                <tr><td>LAP TIME</td><td class="text-green">01:22.15</td></tr>
-                <tr><td>BEST LAP</td><td class="text-pink">01:20.78</td></tr>
+                <tr>
+                    <td class="info-icon-label">📡 GPS</td>
+                    <td class="info-value-data text-green">3D FIX</td>
+                </tr>
+                <tr>
+                    <td class="info-icon-label">⏱️ TOP SPEED</td>
+                    <td class="info-value-data" id="topSpeedVal">0 km/h</td>
+                </tr>
+                <tr id="lapRow" style="display: none;">
+                    <td class="info-icon-label">⏱️ LAP TIME</td>
+                    <td class="info-value-data">01:22.15</td>
+                </tr>
+                <tr id="bestRow" style="display: none;">
+                    <td class="info-icon-label">🏆 BEST LAP</td>
+                    <td class="info-value-data text-pink">01:20.78</td>
+                </tr>
             </table>
+        </div>
+
+        <div class="sub-info-row">
+            <div class="box volt-box">
+                <div class="volt-display"><span id="voltVal">0.0</span><span style="font-size: 14px; font-style: normal; margin-left: 2px; color: #888;">v</span></div>
+                <div class="volt-label-sub">🔋 BATTERY</div>
+            </div>
+            <div class="box sd-box">
+                <div class="sd-header-status">
+                    <span class="sd-label">💾 SD CARD</span>
+                    <span class="text-green" style="font-size: 9px;">LOGGING</span>
+                </div>
+                <div class="sd-bar-container" id="sdBarContainer"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        let state = { maxL:0, maxR:0, maxRpm:0, maxSpd:0, resetTimer:null };
-        let isCircuitMode = false;
+        const SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
+        const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+        
+        let maxSpeed = 0;
+        let isCircuitMode = false; // 初期状態はツーリングモード
 
-        // 長押しリセット機能
-        function startReset(type) {
-            state.resetTimer = setTimeout(() => {
-                if(type === 'bank') { state.maxL=0; state.maxR=0; }
-                else if(type === 'rpm') state.maxRpm=0;
-                else if(type === 'spd') state.maxSpd=0;
-                alert(type.toUpperCase() + " RESET!");
-            }, 1500);
-        }
-        function stopReset() { clearTimeout(state.resetTimer); }
+        // 初期化処理
+        window.addEventListener('DOMContentLoaded', () => {
+            buildBankIndicator();
+            buildMeterTicks('rpmTicks', 14, 270, -225);
+            buildMeterTicks('speedTicks', 14, 270, -225);
+            buildSDBar();
+        });
 
+        // モード切替ロジック
         function toggleMode() {
             isCircuitMode = !isCircuitMode;
             const btn = document.getElementById('modeBtn');
-            btn.classList.toggle('circuit');
-            btn.innerText = isCircuitMode ? 'CIRC' : 'TOUR';
-            document.getElementById('infoBox').style.display = isCircuitMode ? 'block' : 'none';
+            const lapRow = document.getElementById('lapRow');
+            const bestRow = document.getElementById('bestRow');
+
+            if (isCircuitMode) {
+                btn.innerText = 'CIRC';
+                btn.classList.add('circuit');
+                lapRow.style.display = 'table-row';
+                bestRow.style.display = 'table-row';
+            } else {
+                btn.innerText = 'TOUR';
+                btn.classList.remove('circuit');
+                lapRow.style.display = 'none';
+                bestRow.style.display = 'none';
+            }
         }
 
-        // BLEデータ処理
-        function handleDataChanged(event) {
-            let d = new TextDecoder().decode(event.target.value).split(',');
-            if(d.length < 6) return;
-            let b = parseFloat(d[0]), rpm = parseInt(d[3]), spd = parseFloat(d[4]);
-            
-            // MAX値更新
-            if(b < state.maxL) state.maxL = b; if(b > state.maxR) state.maxR = b;
-            if(rpm > state.maxRpm) state.maxRpm = rpm; if(spd > state.maxSpd) state.maxSpd = spd;
-
-            // DOM更新
-            document.getElementById('bankText').innerHTML = Math.abs(b).toFixed(0) + `<span class="bank-direction ${b<0?'dir-L':'dir-R'}">${b<0?'L':'R'}</span>`;
-            document.getElementById('maxBank').innerText = `L${Math.abs(state.maxL).toFixed(0)}/R${Math.abs(state.maxR).toFixed(0)}°`;
-            document.getElementById('rpmVal').innerText = rpm;
-            document.getElementById('maxRpm').innerText = 'MAX: ' + state.maxRpm;
-            document.getElementById('speedVal').innerText = spd.toFixed(0);
-            document.getElementById('maxSpd').innerText = 'MAX: ' + state.maxSpd;
-            document.getElementById('voltVal').innerText = d[5] + 'V';
-            
-            // 針の回転
-            document.getElementById('rpmNeedle').style.transform = `rotate(${(rpm/14000)*270}deg)`;
-            document.getElementById('speedNeedle').style.transform = `rotate(${(spd/280)*270}deg)`;
-        }
-
-        async function connectBLE() {
-            const device = await navigator.bluetooth.requestDevice({filters:[{name:'FZ750_LOGGER_BLE'}], optionalServices:['4fafc201-1fb5-459e-8fcc-c5c9c331914b']});
-            const server = await device.gatt.connect();
-            const service = await server.getPrimaryService('4fafc201-1fb5-459e-8fcc-c5c9c331914b');
-            const char = await service.getCharacteristic('beb5483e-36e1-4688-b7f5-ea07361b26a8');
-            await char.startNotifications();
-            char.addEventListener('characteristicvaluechanged', handleDataChanged);
-            document.getElementById('connectBtn').innerText = "CONNECTED";
-            document.getElementById('connectBtn').classList.add('connected');
-        }
-
-        // 初期化用：バンクバー構築
-        (function init() {
+        function buildBankIndicator() {
             const container = document.getElementById('segContainer');
+            container.innerHTML = '';
             for(let i=0; i<24; i++) {
                 const seg = document.createElement('div');
                 seg.className = `seg-clip ${i < 12 ? 'seg-l' : 'seg-r'}`;
+                seg.id = `seg-${i}`;
+                if (i >= 0 && i <= 3) seg.style.backgroundColor = '#005500';
+                else if (i >= 4 && i <= 7) seg.style.backgroundColor = '#00aa00';
+                else if (i >= 8 && i <= 11) seg.style.backgroundColor = '#aaea00';
+                else if (i >= 12 && i <= 14) seg.style.backgroundColor = '#eaea00';
+                else if (i >= 15 && i <= 18) seg.style.backgroundColor = '#ff8800';
+                else if (i >= 19 && i <= 23) seg.style.backgroundColor = '#ff0000';
+                seg.style.opacity = '0.25';
                 container.appendChild(seg);
             }
-        })();
+        }
+
+        function buildMeterTicks(elementId, count, totalAngle, startAngle) {
+            const g = document.getElementById(elementId);
+            for(let i=0; i<=count; i++) {
+                const angle = startAngle + (i * (totalAngle / count));
+                const rad = (angle * Math.PI) / 180;
+                const x1 = 100 + 80 * Math.cos(rad);
+                const y1 = 100 + 80 * Math.sin(rad);
+                const x2 = 100 + 72 * Math.cos(rad);
+                const y2 = 100 + 72 * Math.sin(rad);
+                
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", x1);
+                line.setAttribute("y1", y1);
+                line.setAttribute("x2", x2);
+                line.setAttribute("y2", y2);
+                
+                if(elementId === 'rpmTicks' && i >= 10) line.setAttribute("stroke", "#ff2222");
+                else line.setAttribute("stroke", "#444");
+                line.setAttribute("stroke-width", "2");
+                g.appendChild(line);
+            }
+        }
+
+        function buildSDBar() {
+            const container = document.getElementById('sdBarContainer');
+            for(let i=0; i<16; i++) {
+                const chunk = document.createElement('div');
+                chunk.className = 'sd-bar-chunk' + (i < 11 ? ' active' : '');
+                container.appendChild(chunk);
+            }
+        }
+
+        async function connectBLE() {
+            try {
+                const device = await navigator.bluetooth.requestDevice({
+                    filters: [{ name: 'FZ750_LOGGER_BLE' }],
+                    optionalServices: [SERVICE_UUID]
+                });
+                document.getElementById('connectBtn').innerText = "Pairing...";
+                const server = await device.gatt.connect();
+                const service = await server.getPrimaryService(SERVICE_UUID);
+                const characteristic = await service.getCharacteristic(CHARACTERISTIC_UUID);
+                await characteristic.startNotifications();
+                characteristic.addEventListener('characteristicvaluechanged', handleDataChanged);
+                
+                document.getElementById('connectBtn').innerText = "CONNECTED";
+                document.getElementById('connectBtn').classList.add('connected');
+                device.addEventListener('gattserverdisconnected', onDisconnected);
+            } catch (error) {
+                console.log("BLE Connection Error: " + error);
+                document.getElementById('connectBtn').innerText = "Connect";
+                document.getElementById('connectBtn').classList.remove('connected');
+            }
+        }
+
+        function handleDataChanged(event) {
+            let decoder = new TextDecoder('utf-8');
+            let strData = decoder.decode(event.target.value);
+            let data = strData.split(',');
+            
+            if (data.length >= 6) {
+                let bank = parseFloat(data[0]);
+                let maxL = parseFloat(data[1]);
+                let maxR = parseFloat(data[2]);
+                let rpm  = parseInt(data[3]);
+                let speed = parseFloat(data[4]);
+                let volt = parseFloat(data[5]);
+
+                if (isNaN(bank) || isNaN(maxL) || isNaN(maxR) || isNaN(rpm) || isNaN(speed) || isNaN(volt)) return;
+
+                if(Math.abs(bank) < 1.5) {
+                    document.getElementById('bankText').innerHTML = `0<span class="bank-direction" style="color:#666;">°</span>`;
+                } else if(bank < 0) {
+                    document.getElementById('bankText').innerHTML = `${Math.abs(bank).toFixed(0)}<span class="bank-direction dir-L">L</span>`;
+                } else {
+                    document.getElementById('bankText').innerHTML = `${Math.abs(bank).toFixed(0)}<span class="bank-direction dir-R">R</span>`;
+                }
+                
+                let cPos = 50 + (bank * (50 / 60));
+                cPos = Math.max(0, Math.min(100, cPos));
+                document.getElementById('cursor').style.left = `calc(${cPos}% - 4px)`;
+                
+                let centerIndex = 12;
+                let targetIndex = Math.floor(centerIndex + (bank * (12 / 60)));
+                targetIndex = Math.max(0, Math.min(23, targetIndex));
+                
+                for(let i=0; i<24; i++) {
+                    const seg = document.getElementById(`seg-${i}`);
+                    if(bank < 0 && i >= targetIndex && i < 12) seg.style.opacity = '1.0';
+                    else if(bank > 0 && i >= 12 && i <= targetIndex) seg.style.opacity = '1.0';
+                    else seg.style.opacity = '0.25';
+                }
+
+                document.getElementById('maxL').innerText = Math.abs(maxL).toFixed(0);
+                document.getElementById('maxR').innerText = Math.abs(maxR).toFixed(0);
+                
+                document.getElementById('rpmVal').innerText = rpm;
+                let rpmAngle = (rpm / 14000) * 270;
+                document.getElementById('rpmNeedle').style.transform = `rotate(${Math.min(270, Math.max(0, rpmAngle))}deg)`;
+                
+                document.getElementById('speedVal').innerText = speed.toFixed(0);
+                let speedAngle = (speed / 280) * 270;
+                document.getElementById('speedNeedle').style.transform = `rotate(${Math.min(270, Math.max(0, speedAngle))}deg)`;
+                
+                if(speed > maxSpeed) {
+                    maxSpeed = speed;
+                    document.getElementById('topSpeedVal').innerText = `${maxSpeed.toFixed(0)} km/h`;
+                }
+
+                document.getElementById('voltVal').innerText = volt.toFixed(1);
+            }
+        }
+
+        function onDisconnected() {
+            document.getElementById('connectBtn').innerText = "Connect";
+            document.getElementById('connectBtn').classList.remove('connected');
+            buildBankIndicator();
+            console.log("BLE Disconnected.");
+        }
     </script>
 </body>
 </html>

@@ -379,24 +379,35 @@ document.getElementById('resetSpd').addEventListener('dblclick', () => {
             }
         }
 
-        function buildBankIndicator() {
-            const container = document.getElementById('segContainer');
-            container.innerHTML = '';
-            for(let i=0; i<24; i++) {
-                const seg = document.createElement('div');
-                seg.className = `seg-clip ${i < 12 ? 'seg-l' : 'seg-r'}`;
-                seg.id = `seg-${i}`;
-                if (i >= 0 && i <= 3) seg.style.backgroundColor = '#005500';
-                else if (i >= 4 && i <= 7) seg.style.backgroundColor = '#00aa00';
-                else if (i >= 8 && i <= 11) seg.style.backgroundColor = '#aaea00';
-                else if (i >= 12 && i <= 14) seg.style.backgroundColor = '#eaea00';
-                else if (i >= 15 && i <= 18) seg.style.backgroundColor = '#ff8800';
-                else if (i >= 19 && i <= 23) seg.style.backgroundColor = '#ff0000';
-                seg.style.opacity = '0.25';
-                container.appendChild(seg);
-            }
-        }
+function buildBankIndicator() {
+    const container = document.getElementById('segContainer');
+    container.innerHTML = '';
 
+    for(let i=0; i<24; i++) {
+
+        const seg = document.createElement('div');
+        seg.className = `seg-clip ${i < 12 ? 'seg-l' : 'seg-r'}`;
+        seg.id = `seg-${i}`;
+
+        if (i == 11 || i == 12)
+            seg.style.backgroundColor = '#00ff00';     // 中央
+
+        else if (i == 9 || i == 10 || i == 13 || i == 14)
+            seg.style.backgroundColor = '#aaff00';     // 黄緑
+
+        else if (i == 7 || i == 8 || i == 15 || i == 16)
+            seg.style.backgroundColor = '#ffff00';     // 黄
+
+        else if (i == 5 || i == 6 || i == 17 || i == 18)
+            seg.style.backgroundColor = '#ff8800';     // オレンジ
+
+        else
+            seg.style.backgroundColor = '#ff0000';     // 赤
+
+        seg.style.opacity = '0.25';
+        container.appendChild(seg);
+    }
+}
         function buildMeterTicks(elementId, count, totalAngle, startAngle) {
             const g = document.getElementById(elementId);
             for(let i=0; i<=count; i++) {

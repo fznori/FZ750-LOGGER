@@ -110,17 +110,39 @@
 
         /* Max Bank Row */
         .max-bank-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 6px; }
-        .max-box { display: flex; flex-direction: column; align-items: center; padding: 4px; background: #161616; cursor: pointer; }
+        .max-box { display: flex; 
+
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+user-select: none;
+flex-direction: column; align-items: center; padding: 4px; background: #161616; cursor: pointer; }
         .max-title { font-size: 10px; color: #777777; font-weight: bold; letter-spacing: 1px; }
         .max-val { font-size: 22px; font-weight: 900; margin-top: 2px; font-family: monospace; }
         .max-val span { font-size: 14px; margin-right: 4px; font-weight: 900;}
 
         /* Twin Meters Section */
         .meters-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 6px; flex: 1; align-items: center; }
-        .meter-wrapper { position: relative; width: 100%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .meter-wrapper { position: relative; 
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+user-select: none;
+
+width: 100%; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; cursor: pointer; }
         .meter-svg { width: 100%; height: 100%; }
         .meter-center-text { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; top: 55%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
         .meter-num { font-size: 28px; font-weight: 900; font-family: monospace; line-height: 1; }
+.meter-max {
+
+    font-size: 15px;
+    color: #aaa;
+    margin-top: 6px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+.reset-flash {
+    color: #00ff00 !important;
+    text-shadow: 0 0 10px #00ff00;
+}
 
         /* Bottom Info Zone */
         .bottom-zone { display: flex; flex-direction: column; gap: 6px; width: 100%; }
@@ -197,9 +219,10 @@
                 <text x="100" y="45" fill="#888" font-size="10" font-weight="bold" text-anchor="middle">RPM</text>
                 <text x="100" y="58" fill="#555" font-size="8" font-weight="bold" text-anchor="middle">x1000</text>
             </svg>
-            <div class="meter-center-text">
-                <span class="meter-num" id="rpmVal">0</span>
-            </div>
+<div class="meter-center-text">
+    <span class="meter-num" id="rpmVal">0</span>
+    <span class="meter-max" id="maxRpmVal">MAX 0</span>
+</div>
         </div>
 
         <div class="box meter-wrapper" id="resetSpd">
@@ -210,9 +233,10 @@
                 <circle cx="100" cy="100" r="6" fill="#111" stroke="#ff2222" stroke-width="2" />
                 <text x="100" y="45" fill="#888" font-size="10" font-weight="bold" text-anchor="middle">km/h</text>
             </svg>
-            <div class="meter-center-text">
-                <span class="meter-num" id="speedVal">0</span>
-            </div>
+<div class="meter-center-text">
+    <span class="meter-num" id="speedVal">0</span>
+    <span class="meter-max" id="maxSpeedVal">MAX 0</span>
+</div>
         </div>
     </div>
 
@@ -220,13 +244,19 @@
         <div class="box gps-lap-box">
             <table class="info-table">
                 <tr>
-                    <td class="info-icon-label">📡 GPS</td>
-                    <td class="info-value-data text-green">3D FIX</td>
-                </tr>
-                <tr>
-                    <td class="info-icon-label">⏱️ TOP SPEED</td>
-                    <td class="info-value-data" id="topSpeedVal">0 km/h</td>
-                </tr>
+    <td class="info-icon-label">📡 GPS</td>
+    <td class="info-value-data text-green">
+        <span id="gpsFix">3D FIX</span>
+    </td>
+</tr>
+
+<tr>
+    <td class="info-icon-label">🛰️ SAT</td>
+    <td class="info-value-data">
+       <span id="satCount" class="text-green">12</span>
+    </td>
+</tr>
+                
                 <tr id="lapRow" style="display: none;">
                     <td class="info-icon-label">⏱️ LAP TIME</td>
                     <td class="info-value-data">01:22.15</td>
@@ -271,19 +301,64 @@
             buildSDBar();
             
             // 各リセット対象に長押しイベント設定
-            setupResetListener('resetMaxL', () => { peakL = 0; document.getElementById('maxL').innerText = '0'; });
-            setupResetListener('resetMaxR', () => { peakR = 0; document.getElementById('maxR').innerText = '0'; });
-            setupResetListener('resetRpm', () => { peakRpm = 0; });
-            setupResetListener('resetSpd', () => { peakSpeed = 0; document.getElementById('topSpeedVal').innerText = '0 km/h'; });
-        });
+document.getElementById('resetMaxL').addEventListener('dblclick', () => {
+    peakL = 0;
 
-        function setupResetListener(id, resetAction) {
-            const el = document.getElementById(id);
-            el.addEventListener('mousedown', () => resetTimer = setTimeout(resetAction, 2000));
-            el.addEventListener('mouseup', () => clearTimeout(resetTimer));
-            el.addEventListener('touchstart', () => resetTimer = setTimeout(resetAction, 2000));
-            el.addEventListener('touchend', () => clearTimeout(resetTimer));
-        }
+    const el = document.getElementById('maxL');
+
+    el.innerText = 'RST';
+    el.classList.add('reset-flash');
+
+    setTimeout(() => {
+        el.innerText = '0';
+        el.classList.remove('reset-flash');
+    }, 800);
+});
+
+document.getElementById('resetMaxR').addEventListener('dblclick', () => {
+    peakR = 0;
+
+    const el = document.getElementById('maxR');
+
+    el.innerText = 'RST';
+    el.classList.add('reset-flash');
+
+    setTimeout(() => {
+        el.innerText = '0';
+        el.classList.remove('reset-flash');
+    }, 800);
+});
+
+document.getElementById('resetRpm').addEventListener('dblclick', () => {
+    peakRpm = 0;
+
+    const el = document.getElementById('maxRpmVal');
+
+    el.innerText = 'RESET';
+    el.classList.add('reset-flash');
+
+    setTimeout(() => {
+        el.innerText = 'MAX 0';
+        el.classList.remove('reset-flash');
+    }, 800);
+});
+document.getElementById('resetSpd').addEventListener('dblclick', () => {
+    peakSpeed = 0;
+
+    const el = document.getElementById('maxSpeedVal');
+
+    el.innerText = 'RESET';
+    el.classList.add('reset-flash');
+
+  
+
+    setTimeout(() => {
+        el.innerText = 'MAX 0';
+        el.classList.remove('reset-flash');
+    }, 800);
+});
+});
+
 
         function toggleMode() {
             isCircuitMode = !isCircuitMode;
@@ -417,8 +492,14 @@
                 document.getElementById('maxR').innerText = peakR.toFixed(0);
                 document.getElementById('rpmVal').innerText = rpm;
                 document.getElementById('speedVal').innerText = speed.toFixed(0);
-                document.getElementById('topSpeedVal').innerText = `${peakSpeed.toFixed(0)} km/h`;
+
                 document.getElementById('voltVal').innerText = volt.toFixed(1);
+
+document.getElementById('maxRpmVal').innerText =
+    'MAX ' + peakRpm;
+
+document.getElementById('maxSpeedVal').innerText =
+    'MAX ' + peakSpeed.toFixed(0);
                 
                 document.getElementById('rpmNeedle').style.transform = `rotate(${Math.min(270, Math.max(0, (rpm / 14000) * 270))}deg)`;
                 document.getElementById('speedNeedle').style.transform = `rotate(${Math.min(270, Math.max(0, (speed / 280) * 270))}deg)`;

@@ -863,6 +863,7 @@ const ty = 100 + 74 * Math.sin(rad);
                 let temp = parseFloat(data[6]);
                 let humi = parseFloat(data[7]);
 let freePercent = parseFloat(data[8]);
+                console.log("SD =", freePercent);
 let logCount = parseInt(data[9]);
 
                 if (isNaN(bank)) return;
@@ -973,7 +974,7 @@ document.getElementById('sdBarContainer').innerHTML =
 `
 <div style="
 width:${freePercent}%;
-height:100%;
+height:12px;
 background:#00ff00;
 border-radius:3px;">
 </div>

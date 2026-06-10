@@ -613,11 +613,17 @@
             <div class="box sd-box">
                 <div class="sd-header-status">
                     <span class="sd-label">💾 SD CARD</span>
-                    <span id="sdStatus"
+<span id="sdStatus"
       class="text-green"
       style="font-size:9px;">
 LOGGING
 </span>
+
+<span id="sdPercent"
+      style="font-size:9px;color:white;">
+0%
+</span>
+                    
                 </div>
                 <div class="sd-bar-container" id="sdBarContainer"></div>
             </div>
@@ -971,6 +977,9 @@ document.getElementById('speedNeedle').style.transform =
     `translateX(-50%) rotate(${speedAngle}deg)`;
 
 document.getElementById('sdBarContainer').innerHTML =
+
+    document.getElementById('sdPercent').innerText =
+    freePercent.toFixed(1) + "%";
 `
 <div style="
 width:${freePercent}%;

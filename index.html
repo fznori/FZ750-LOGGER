@@ -613,7 +613,11 @@
             <div class="box sd-box">
                 <div class="sd-header-status">
                     <span class="sd-label">💾 SD CARD</span>
-                    <span class="text-green" style="font-size: 9px;">LOGGING</span>
+                    <span id="sdStatus"
+      class="text-green"
+      style="font-size:9px;">
+LOGGING
+</span>
                 </div>
                 <div class="sd-bar-container" id="sdBarContainer"></div>
             </div>
@@ -851,13 +855,15 @@ const ty = 100 + 74 * Math.sin(rad);
             let strData = decoder.decode(event.target.value);
             let data = strData.split(',');
 
-            if (data.length >= 8) {
+            if (data.length >= 10) {
                 let bank = parseFloat(data[0]);
                 let rpm = parseInt(data[3]);
                 let speed = parseFloat(data[4]);
                 let volt = parseFloat(data[5]);
                 let temp = parseFloat(data[6]);
                 let humi = parseFloat(data[7]);
+let freePercent = parseFloat(data[8]);
+let logCount = parseInt(data[9]);
 
                 if (isNaN(bank)) return;
 
@@ -919,9 +925,8 @@ else
     tempEl.style.color = '#ffffff';
 }
 
-                document.getElementById('maxRpmVal').innerText = 'MAX ' + peakRpm;
-                document.getElementById('maxSpeedVal').innerText = 'MAX ' + peakSpeed.toFixed(0);
-
+               
+                
 let rpmAngle;
 
 if (rpm <= 3000)
@@ -963,6 +968,33 @@ else
 
 document.getElementById('speedNeedle').style.transform =
     `translateX(-50%) rotate(${speedAngle}deg)`;
+
+document.getElementById('sdBarContainer').innerHTML =
+`
+<div style="
+width:${freePercent}%;
+height:100%;
+background:#00ff00;
+border-radius:3px;">
+</div>
+`;
+
+if(logCount > 0)
+{
+    document.getElementById('sdStatus').innerText =
+        "BUFFER";
+
+    document.getElementById('sdStatus').style.color =
+        "#ffff00";
+}
+else
+{
+    document.getElementById('sdStatus').innerText =
+        "LOGGING";
+
+    document.getElementById('sdStatus').style.color =
+        "#00ff00";
+}
             }
         }
 

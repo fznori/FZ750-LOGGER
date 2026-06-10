@@ -876,9 +876,9 @@ const ty = 100 + 74 * Math.sin(rad);
                 let volt = parseFloat(data[5]);
                 let temp = parseFloat(data[6]);
                 let humi = parseFloat(data[7]);
-let freePercent = parseFloat(data[8]);
-               
-let logCount = parseInt(data[9]);
+                let freePercent = parseFloat(data[8]);
+                let logCount = parseInt(data[9]);
+                let saveNow = parseInt(data[10]);
 
                 if (isNaN(bank)) return;
 
@@ -1014,16 +1014,16 @@ transition:0.3s;">
 const led = document.getElementById('sdLed');
 const status = document.getElementById('sdStatus');
 
-if(logCount == 0)
+if(saveNow == 1)
 {
-    status.innerText = "LOGGING";
-    status.style.color = "#00ff00";
+    status.innerText = "SAVE";
+    status.style.color = "#ff0000";
 
-    led.style.color = "#00ff00";
+    led.style.color = "#ff0000";
     led.style.opacity =
-        (Date.now() % 2000 < 1000) ? "1" : "0.2";
+        (Date.now() % 300 < 150) ? "1" : "0.1";
 }
-else
+else if(logCount > 0)
 {
     status.innerText = "BUFFER";
     status.style.color = "#ffff00";
@@ -1031,6 +1031,15 @@ else
     led.style.color = "#ffff00";
     led.style.opacity =
         (Date.now() % 1000 < 500) ? "1" : "0.2";
+}
+else
+{
+    status.innerText = "LOGGING";
+    status.style.color = "#00ff00";
+
+    led.style.color = "#00ff00";
+    led.style.opacity =
+        (Date.now() % 2000 < 1000) ? "1" : "0.2";
 }
 }
 }

@@ -869,7 +869,7 @@ const ty = 100 + 74 * Math.sin(rad);
             let strData = decoder.decode(event.target.value);
             let data = strData.split(',');
 
-            if (data.length >= 10) {
+            if (data.length >= 11) {
                 let bank = parseFloat(data[0]);
                 let rpm = parseInt(data[3]);
                 let speed = parseFloat(data[4]);

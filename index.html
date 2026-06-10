@@ -585,15 +585,19 @@
                     <td class="info-value-data">
                         <span id="satCount" class="text-green">12</span>
                     </td>
-                </tr>
-                <tr id="lapRow" style="display: none;">
-                    <td class="info-icon-label">⏱️ LAP TIME</td>
-                    <td class="info-value-data">01:22.15</td>
-                </tr>
-                <tr id="bestRow" style="display: none;">
-                    <td class="info-icon-label">🏆 BEST LAP</td>
-                    <td class="info-value-data text-pink">01:20.78</td>
-                </tr>
+                <tr id="tempRow">
+    <td class="info-icon-label">🌡️ TEMP</td>
+    <td class="info-value-data text-green">
+        <span id="tempVal">--.-</span>℃
+    </td>
+</tr>
+
+<tr id="humiRow">
+    <td class="info-icon-label">💧 HUMI</td>
+    <td class="info-value-data text-cyan">
+        <span id="humiVal">--</span>%
+    </td>
+</tr>
             </table>
         </div>
         <div class="sub-info-row">
@@ -847,6 +851,8 @@ const ty = 100 + 74 * Math.sin(rad);
                 let rpm = parseInt(data[3]);
                 let speed = parseFloat(data[4]);
                 let volt = parseFloat(data[5]);
+                let temp = parseFloat(data[6]);
+                let humi = parseFloat(data[7]);
 
                 if (isNaN(bank)) return;
 
@@ -882,6 +888,11 @@ const ty = 100 + 74 * Math.sin(rad);
                 document.getElementById('rpmVal').innerText = "";
                 document.getElementById('speedVal').innerText = "";
                 document.getElementById('voltVal').innerText = volt.toFixed(1);
+                document.getElementById('tempVal').innerText =
+    temp.toFixed(1);
+
+document.getElementById('humiVal').innerText =
+    humi.toFixed(0);
 
                 document.getElementById('maxRpmVal').innerText = 'MAX ' + peakRpm;
                 document.getElementById('maxSpeedVal').innerText = 'MAX ' + peakSpeed.toFixed(0);

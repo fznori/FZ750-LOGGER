@@ -613,9 +613,17 @@
             <div class="box sd-box">
                 <div class="sd-header-status">
                     <span class="sd-label">💾 SD CARD</span>
+<span id="sdLed"
+      style="
+      color:#00ff00;
+      font-size:12px;">
+●
+</span>
+
 <span id="sdStatus"
-      class="text-green"
-      style="font-size:9px;">
+      style="
+      color:#00ff00;
+      font-size:9px;">
 LOGGING
 </span>
 
@@ -1014,25 +1022,28 @@ transition:0.3s;">
 </div>
 `;
 
-if(logCount > 0)
-{
-    document.getElementById('sdStatus').innerText =
-        "BUFFER";
+const led = document.getElementById('sdLed');
+const status = document.getElementById('sdStatus');
 
-    document.getElementById('sdStatus').style.color =
-        "#ffff00";
+if(logCount == 0)
+{
+    status.innerText = "LOGGING";
+    status.style.color = "#00ff00";
+
+    led.style.color = "#00ff00";
+    led.style.opacity =
+        (Date.now() % 2000 < 1000) ? "1" : "0.2";
 }
 else
 {
-    document.getElementById('sdStatus').innerText =
-        "LOGGING";
+    status.innerText = "BUFFER";
+    status.style.color = "#ffff00";
 
-    document.getElementById('sdStatus').style.color =
-        "#00ff00";
+    led.style.color = "#ffff00";
+    led.style.opacity =
+        (Date.now() % 1000 < 500) ? "1" : "0.2";
 }
-            }
-        }
-
+} 
         function onDisconnected() {
             document.getElementById('connectBtn').innerText = "Connect";
             document.getElementById('connectBtn').classList.remove('connected');

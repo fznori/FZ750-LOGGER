@@ -999,18 +999,7 @@ if(freePercent < 30)
 document.getElementById('sdValue').innerText =
     freePercent.toFixed(1) + "%";
 
-                let barColor = "#00ff00";
-
-if(freePercent < 70)
-{
-    barColor = "#ffff00";
-}
-
-if(freePercent < 30)
-{
-    barColor = "#ff3300";
-}
-                
+                               
 document.getElementById('sdBarContainer').innerHTML =
 `
 <div style="

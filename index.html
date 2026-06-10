@@ -886,17 +886,11 @@ const ty = 100 + 74 * Math.sin(rad);
                 document.getElementById('maxRpmVal').innerText = 'MAX ' + peakRpm;
                 document.getElementById('maxSpeedVal').innerText = 'MAX ' + peakSpeed.toFixed(0);
 
-                const rpmAngle =
-    -135 + ((rpm / 12500) * 270);
-
-document.getElementById('rpmNeedle').style.transform =
-    `translateX(-50%) rotate(${rpmAngle}deg)`;
-
-                const speedAngle =
-    -135 + ((speed / 240) * 270);
+                document.getElementById('rpmNeedle').style.transform =
+    `translateX(-50%) rotate(-135deg)`;
 
 document.getElementById('speedNeedle').style.transform =
-    `translateX(-50%) rotate(${speedAngle}deg)`;
+    `translateX(-50%) rotate(-135deg)`;
             }
         }
 

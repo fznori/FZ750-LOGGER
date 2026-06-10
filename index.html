@@ -880,6 +880,9 @@ const ty = 100 + 74 * Math.sin(rad);
                 let logCount = parseInt(data[9]);
                 let saveNow = parseInt(data[10]);
 
+                document.getElementById('sdStatus').innerText =
+    "S" + saveNow;
+
                 if (isNaN(bank)) return;
 
                 // バンク最大値の更新

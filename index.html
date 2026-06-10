@@ -891,17 +891,22 @@ let rpmAngle;
 if (rpm <= 3000)
 {
     rpmAngle =
-        -91 + (rpm / 3000.0) * 22;
+        -103 + (rpm / 3000.0) * 34;
+}
+else if (rpm <= 6000)
+{
+    rpmAngle =
+        -69 + ((rpm - 3000) / 3000.0) * 71;
 }
 else
 {
     rpmAngle =
-        -69 + ((rpm - 3000) / 9000.0) * 209;
+        2 + ((rpm - 6000) / 6000.0) * 138;
 }
 
 document.getElementById('rpmNeedle').style.transform =
     `translateX(-50%) rotate(${rpmAngle}deg)`;
-
+                
 let speedAngle;
 
 if (speed <= 60)

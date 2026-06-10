@@ -886,8 +886,21 @@ const ty = 100 + 74 * Math.sin(rad);
                 document.getElementById('maxRpmVal').innerText = 'MAX ' + peakRpm;
                 document.getElementById('maxSpeedVal').innerText = 'MAX ' + peakSpeed.toFixed(0);
 
-                document.getElementById('rpmNeedle').style.transform =
-    `translateX(-50%) rotate(-91deg)`;
+let rpmAngle;
+
+if (rpm <= 3000)
+{
+    rpmAngle =
+        -91 + (rpm / 3000.0) * 22;
+}
+else
+{
+    rpmAngle =
+        -69 + ((rpm - 3000) / 9000.0) * 209;
+}
+
+document.getElementById('rpmNeedle').style.transform =
+    `translateX(-50%) rotate(${rpmAngle}deg)`;
 
 document.getElementById('speedNeedle').style.transform =
     `translateX(-50%) rotate(136deg)`;

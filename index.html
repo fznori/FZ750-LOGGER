@@ -413,6 +413,11 @@
             text-shadow: 0 0 5px rgba(224, 0, 224, 0.3);
         }
 
+        .text-cyan {
+    color: #00d0ff;
+    text-shadow: 0 0 5px rgba(0, 208, 255, 0.3);
+}
+
         /* Battery & SD Row */
         .sub-info-row {
             display: grid;
@@ -588,7 +593,7 @@
                 <tr id="tempRow">
     <td class="info-icon-label">🌡️ TEMP</td>
     <td class="info-value-data text-green">
-        <span id="tempVal">--.-</span>℃
+        <span id="tempVal" class="text-white">--.-</span>℃
     </td>
 </tr>
 
@@ -846,7 +851,7 @@ const ty = 100 + 74 * Math.sin(rad);
             let strData = decoder.decode(event.target.value);
             let data = strData.split(',');
 
-            if (data.length >= 6) {
+            if (data.length >= 8) {
                 let bank = parseFloat(data[0]);
                 let rpm = parseInt(data[3]);
                 let speed = parseFloat(data[4]);
@@ -888,11 +893,26 @@ const ty = 100 + 74 * Math.sin(rad);
                 document.getElementById('rpmVal').innerText = "";
                 document.getElementById('speedVal').innerText = "";
                 document.getElementById('voltVal').innerText = volt.toFixed(1);
-                document.getElementById('tempVal').innerText =
+document.getElementById('tempVal').innerText =
     temp.toFixed(1);
 
 document.getElementById('humiVal').innerText =
     humi.toFixed(0);
+
+const tempEl = document.getElementById('tempVal');
+
+if(temp <= 15)
+{
+    tempEl.style.color = '#00d0ff';
+}
+else if(temp >= 28)
+{
+    tempEl.style.color = '#ff6a6a';
+}
+else
+{
+    tempEl.style.color = '#ffffff';
+}
 
                 document.getElementById('maxRpmVal').innerText = 'MAX ' + peakRpm;
                 document.getElementById('maxSpeedVal').innerText = 'MAX ' + peakSpeed.toFixed(0);

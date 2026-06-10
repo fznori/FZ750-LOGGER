@@ -902,8 +902,26 @@ else
 document.getElementById('rpmNeedle').style.transform =
     `translateX(-50%) rotate(${rpmAngle}deg)`;
 
+let speedAngle;
+
+if (speed <= 60)
+{
+    speedAngle =
+        -93 + (speed / 60.0) * 44;
+}
+else if (speed <= 100)
+{
+    speedAngle =
+        -49 + ((speed - 60) / 40.0) * 51;
+}
+else
+{
+    speedAngle =
+        2 + ((speed - 100) / 140.0) * 134;
+}
+
 document.getElementById('speedNeedle').style.transform =
-    `translateX(-50%) rotate(-49deg)`;
+    `translateX(-50%) rotate(${speedAngle}deg)`;
             }
         }
 

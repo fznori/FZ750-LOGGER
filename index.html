@@ -879,18 +879,18 @@ const ty = 100 + 74 * Math.sin(rad);
 
                 document.getElementById('maxL').innerText = peakL.toFixed(0);
                 document.getElementById('maxR').innerText = peakR.toFixed(0);
-                document.getElementById('rpmVal').innerText = rpm;
-                document.getElementById('speedVal').innerText = speed.toFixed(0);
+                document.getElementById('rpmVal').innerText = "";
+                document.getElementById('speedVal').innerText = "";
                 document.getElementById('voltVal').innerText = volt.toFixed(1);
 
                 document.getElementById('maxRpmVal').innerText = 'MAX ' + peakRpm;
                 document.getElementById('maxSpeedVal').innerText = 'MAX ' + peakSpeed.toFixed(0);
 
                 document.getElementById('rpmNeedle').style.transform =
-    `translateX(-50%) rotate(-92deg)`;
+    `translateX(-50%) rotate(0deg)`;
 
 document.getElementById('speedNeedle').style.transform =
-    `translateX(-50%) rotate(-102deg)`;
+    `translateX(-50%) rotate(17deg)`;
             }
         }
 

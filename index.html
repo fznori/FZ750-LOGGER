@@ -645,6 +645,7 @@
       style="
       color:#00ff00;
       font-size:12px;">
+    display: inline-block;">
 ●
 </span>
 
@@ -1086,7 +1087,7 @@ const led = document.getElementById('sdLed');
             status.innerText = "LOGGING";
             status.style.color = "#00ff00";
             led.style.color = "#00ff00";
-            led.className = "blink-on";   // 常時点灯
+            led.className = "blink-slow";   
         }
     } // handleDataChanged の閉じブラケット
 }

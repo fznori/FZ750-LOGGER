@@ -585,12 +585,12 @@
                         <span id="gpsFix">3D FIX</span>
                     </td>
                 </tr>
-                <tr>
+              <tr>
                     <td class="info-icon-label">🛰️ SAT</td>
                     <td class="info-value-data">
                         <span id="satCount" class="text-green">12</span>
                     </td>
-                <tr id="tempRow">
+                </tr> <tr id="tempRow">
     <td class="info-icon-label">🌡️ TEMP</td>
     <td class="info-value-data text-green">
         <span id="tempVal" class="text-white">--.-</span>℃
@@ -647,10 +647,10 @@ LOGGING
     <script>
         const SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
         const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
-        let peakL = 0;
-        let peakR = 0;
-        let peakRpm = 0;
-        let peakSpeed = 0;
+let peakL = parseFloat(localStorage.getItem('peakL')) || 0;
+let peakR = parseFloat(localStorage.getItem('peakR')) || 0;
+let peakRpm = parseInt(localStorage.getItem('peakRpm')) || 0;
+let peakSpeed = parseFloat(localStorage.getItem('peakSpeed')) || 0;
         let isCircuitMode = false;
         let resetTimer = null;
 
@@ -659,9 +659,15 @@ window.addEventListener('DOMContentLoaded', () => {
     buildBankIndicator();
     buildSDBar();
 
+    document.getElementById('maxL').innerText = peakL.toFixed(0);
+    document.getElementById('maxR').innerText = peakR.toFixed(0);
+    document.getElementById('maxRpmVal').innerText = "MAX " + peakRpm;
+    document.getElementById('maxSpeedVal').innerText = "MAX " + peakSpeed.toFixed(0);
+
             // 各リセット対象に長押しイベント設定
             document.getElementById('resetMaxL').addEventListener('dblclick', () => {
                 peakL = 0;
+                localStorage.setItem('peakL', 0);
                 const el = document.getElementById('maxL');
                 el.innerText = 'RST';
                 el.classList.add('reset-flash');
@@ -673,6 +679,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('resetMaxR').addEventListener('dblclick', () => {
                 peakR = 0;
+                localStorage.setItem('peakR', 0);
                 const el = document.getElementById('maxR');
                 el.innerText = 'RST';
                 el.classList.add('reset-flash');
@@ -684,6 +691,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('resetRpm').addEventListener('dblclick', () => {
                 peakRpm = 0;
+                localStorage.setItem('peakRpm', 0);
                 const el = document.getElementById('maxRpmVal');
                 el.innerText = 'RESET';
                 el.classList.add('reset-flash');
@@ -695,6 +703,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('resetSpd').addEventListener('dblclick', () => {
                 peakSpeed = 0;
+                localStorage.setItem('peakSpeed', 0);
                 const el = document.getElementById('maxSpeedVal');
                 el.innerText = 'RESET';
                 el.classList.add('reset-flash');
@@ -711,16 +720,16 @@ window.addEventListener('DOMContentLoaded', () => {
             const lapRow = document.getElementById('lapRow');
             const bestRow = document.getElementById('bestRow');
 
-            if (isCircuitMode) {
+           if (isCircuitMode) {
                 btn.innerText = 'CIRC';
                 btn.classList.add('circuit');
-                lapRow.style.display = 'table-row';
-                bestRow.style.display = 'table-row';
+                if (lapRow) lapRow.style.display = 'table-row';   // ★もしパーツがあれば動かす
+                if (bestRow) bestRow.style.display = 'table-row'; // ★もしパーツがあれば動かす
             } else {
                 btn.innerText = 'TOUR';
                 btn.classList.remove('circuit');
-                lapRow.style.display = 'none';
-                bestRow.style.display = 'none';
+                if (lapRow) lapRow.style.display = 'none';   // ★もしパーツがあれば隠す
+                if (bestRow) bestRow.style.display = 'none'; // ★もしパーツがあれば隠す
             }
         }
 
@@ -884,13 +893,31 @@ const ty = 100 + 74 * Math.sin(rad);
 
                 if (isNaN(bank)) return;
 
-                // バンク最大値の更新
-                if (bank < 0) peakL = Math.max(peakL, Math.abs(bank));
-                else peakR = Math.max(peakR, bank);
+// バンク角のMAX更新
+if (bank < 0) {
+    let absBank = Math.abs(bank);
+    if (absBank > peakL) {
+        peakL = absBank;
+        localStorage.setItem('peakL', peakL); // ★保存を追加
+    }
+} else {
+    if (bank > peakR) {
+        peakR = bank;
+        localStorage.setItem('peakR', peakR); // ★保存を追加
+    }
+}
 
-                // RPM、SPEED最大値の更新
-                peakRpm = Math.max(peakRpm, rpm);
-                peakSpeed = Math.max(peakSpeed, speed);
+// RPMのMAX更新
+if (rpm > peakRpm) {
+    peakRpm = rpm;
+    localStorage.setItem('peakRpm', peakRpm); // ★保存を追加
+}
+
+// SPEEDのMAX更新
+if (speed > peakSpeed) {
+    peakSpeed = speed;
+    localStorage.setItem('peakSpeed', peakSpeed); // ★保存を追加
+}
 
                 // UI更新
                 if (Math.abs(bank) < 1.5) {
@@ -911,13 +938,14 @@ const ty = 100 + 74 * Math.sin(rad);
                     else seg.style.opacity = '0.25';
                 }
 
+              // 全てのMAX値と現在値をすっきり描画
                 document.getElementById('maxL').innerText = peakL.toFixed(0);
                 document.getElementById('maxR').innerText = peakR.toFixed(0);
-                document.getElementById('rpmVal').innerText = "";
-                document.getElementById('speedVal').innerText = "";
-
+                document.getElementById('maxRpmVal').innerText = "MAX " + peakRpm;
+                document.getElementById('maxSpeedVal').innerText = "MAX " + peakSpeed.toFixed(0);
+                
                 document.getElementById('rpmVal').innerText = rpm;
-document.getElementById('speedVal').innerText = speed.toFixed(0);
+                document.getElementById('speedVal').innerText = speed.toFixed(0);
 
                 
                 document.getElementById('voltVal').innerText = volt.toFixed(1);

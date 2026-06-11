@@ -682,7 +682,12 @@ let peakSpeed = parseFloat(localStorage.getItem('peakSpeed')) || 0;
         let isCircuitMode = false;
         let resetTimer = null;
 
-window.addEventListener('DOMContentLoaded', () => {
+// タイトルをダブルタップしたら、Web側からフルスクリーンを終了させる
+    document.querySelector('.header-title').addEventListener('dblclick', () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen(); // フルスクリーン解除
+        }
+    });
 
     buildBankIndicator();
     buildSDBar();

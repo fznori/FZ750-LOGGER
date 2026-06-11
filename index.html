@@ -89,7 +89,7 @@
             box-shadow: 0 0 10px rgba(224, 0, 224, 0.5);
         }
 
-        .header-title {
+.header-title {
             font-size: 20px;
             font-weight: 900;
             font-style: italic;
@@ -97,6 +97,11 @@
             letter-spacing: 2px;
             text-align: right;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+
+            /* 👇 どんなモードの妨害が入っても、絶対に縦2段・右寄せに固定するお守り */
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
         }
 
         /* Common Box Style */

@@ -488,6 +488,22 @@
         .sd-bar-chunk.active {
             background: #555;
         }
+
+        /* LED点滅用のアニメーション定義 */
+        @keyframes blink-fast { 
+            0%, 100% { opacity: 0.1; } 
+            50% { opacity: 1; } 
+        }
+        @keyframes blink-slow { 
+            0%, 100% { opacity: 0.2; } 
+            50% { opacity: 1; } 
+        }
+
+        /* 点滅状態を制御するクラス */
+        .blink-fast { animation: blink-fast 0.3s infinite; }
+        .blink-slow { animation: blink-slow 1.0s infinite; }
+        .blink-on { opacity: 1; animation: none; }
+        
     </style>
 </head>
 
@@ -598,12 +614,24 @@
 </tr>
 
 <tr id="humiRow">
-    <td class="info-icon-label">💧 HUMI</td>
-    <td class="info-value-data text-cyan">
-        <span id="humiVal">--</span>%
-    </td>
-</tr>
-            </table>
+                    <td class="info-icon-label">💧 HUMI</td>
+                    <td class="info-value-data text-cyan">
+                        <span id="humiVal">--</span>%
+                    </td>
+                </tr>
+                <tr id="lapRow" style="display: none;">
+                    <td class="info-icon-label">⏱️ LAP</td>
+                    <td class="info-value-data text-pink">
+                        <span id="lapVal">--'--"--</span>
+                    </td>
+                </tr>
+                <tr id="bestRow" style="display: none;">
+                    <td class="info-icon-label">🏆 BEST</td>
+                    <td class="info-value-data text-pink">
+                        <span id="bestVal">--'--"--</span>
+                    </td>
+                </tr>
+                </table>
         </div>
         <div class="sub-info-row">
             <div class="box volt-box">
@@ -1042,36 +1070,25 @@ transition:0.3s;">
 `;
 
 const led = document.getElementById('sdLed');
-const status = document.getElementById('sdStatus');
+        const status = document.getElementById('sdStatus');
 
-if(saveNow == 1)
-{
-    status.innerText = "SAVE";
-    status.style.color = "#ff0000";
-
-    led.style.color = "#ff0000";
-    led.style.opacity =
-        (Date.now() % 300 < 150) ? "1" : "0.1";
-}
-else if(logCount > 0)
-{
-    status.innerText = "BUFFER";
-    status.style.color = "#ffff00";
-
-    led.style.color = "#ffff00";
-    led.style.opacity =
-        (Date.now() % 1000 < 500) ? "1" : "0.2";
-}
-else
-{
-    status.innerText = "LOGGING";
-    status.style.color = "#00ff00";
-
-    led.style.color = "#00ff00";
-    led.style.opacity =
-        (Date.now() % 2000 < 1000) ? "1" : "0.2";
-}
-}
+        if (saveNow == 1) {
+            status.innerText = "SAVE";
+            status.style.color = "#ff0000";
+            led.style.color = "#ff0000";
+            led.className = "blink-fast"; // 高速点滅クラスを適用
+        } else if (logCount > 0) {
+            status.innerText = "BUFFER";
+            status.style.color = "#ffff00";
+            led.style.color = "#ffff00";
+            led.className = "blink-slow"; // 低速点滅クラスを適用
+        } else {
+            status.innerText = "LOGGING";
+            status.style.color = "#00ff00";
+            led.style.color = "#00ff00";
+            led.className = "blink-on";   // 常時点灯
+        }
+    } // handleDataChanged の閉じブラケット
 }
         function onDisconnected() {
             document.getElementById('connectBtn').innerText = "Connect";

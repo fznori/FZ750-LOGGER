@@ -645,7 +645,6 @@
       style="
       color:#00ff00;
       font-size:12px;">
-    display: inline-block;">
 ●
 </span>
 
@@ -743,25 +742,32 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        function toggleMode() {
+       function toggleMode() {
             isCircuitMode = !isCircuitMode;
             const btn = document.getElementById('modeBtn');
+            const tempRow = document.getElementById('tempRow');
+            const humiRow = document.getElementById('humiRow');
             const lapRow = document.getElementById('lapRow');
             const bestRow = document.getElementById('bestRow');
 
-           if (isCircuitMode) {
+            if (isCircuitMode) {
                 btn.innerText = 'CIRC';
                 btn.classList.add('circuit');
-                if (lapRow) lapRow.style.display = 'table-row';   // ★もしパーツがあれば動かす
-                if (bestRow) bestRow.style.display = 'table-row'; // ★もしパーツがあれば動かす
+                // サーキットモード：温湿度は隠して、ラップタイム系を表示
+                if (tempRow) tempRow.style.display = 'none';
+                if (humiRow) humiRow.style.display = 'none';
+                if (lapRow) lapRow.style.display = 'table-row';
+                if (bestRow) bestRow.style.display = 'table-row';
             } else {
                 btn.innerText = 'TOUR';
                 btn.classList.remove('circuit');
-                if (lapRow) lapRow.style.display = 'none';   // ★もしパーツがあれば隠す
-                if (bestRow) bestRow.style.display = 'none'; // ★もしパーツがあれば隠す
+                // ツーリングモード：温湿度を表示して、ラップタイム系を隠す
+                if (tempRow) tempRow.style.display = 'table-row';
+                if (humiRow) humiRow.style.display = 'table-row';
+                if (lapRow) lapRow.style.display = 'none';
+                if (bestRow) bestRow.style.display = 'none';
             }
         }
-
         function buildBankIndicator() {
             const container = document.getElementById('segContainer');
             container.innerHTML = '';

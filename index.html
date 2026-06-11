@@ -489,6 +489,21 @@
             background: #555;
         }
 
+        /* === 疑似全画面（走行集中モード）のスタイル === */
+        body.fullscreen-mode .btn-group,
+        body.fullscreen-mode .bottom-zone {
+            display: none !important; /* ボタンや下のテーブルを非表示にしてメーターを広げる */
+        }
+        body.fullscreen-mode {
+            padding: 4px;
+        }
+        body.fullscreen-mode .top-bar {
+            justify-content: flex-end; /* ボタンが消えた後もロゴを右上に正しくキープ */
+        }
+        body.fullscreen-mode .meters-row {
+            flex: 2; /* 全画面時にメーターをさらに大きく引き伸ばす */
+        }
+
         /* LED点滅用のアニメーション定義 */
         @keyframes blink-fast { 
             0%, 100% { opacity: 0.1; } 
@@ -682,10 +697,23 @@ let peakSpeed = parseFloat(localStorage.getItem('peakSpeed')) || 0;
         let isCircuitMode = false;
         let resetTimer = null;
 
-// タイトルをダブルタップしたら、Web側からフルスクリーンを終了させる
-    document.querySelector('.header-title').addEventListener('dblclick', () => {
-        if (document.fullscreenElement) {
-            document.exitFullscreen(); // フルスクリーン解除
+// === 通常 ⇔ 全画面の切り替え（iOS・Bluefy安全対策版） ===
+    let lastTapTime = 0;
+    document.addEventListener('touchend', (e) => {
+        const isLogo = e.target.closest('.header-title');
+        const isFullscreen = document.body.classList.contains('fullscreen-mode');
+
+        // 通常画面の時は「ロゴ（FZ750 LOGGER）」のダブルタップのみ反応
+        // 全画面の時は「画面のどこをダブルタップしても」元の画面に戻る
+        if (isLogo || isFullscreen) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTapTime;
+            
+            if (tapLength < 300 && tapLength > 0) {
+                document.body.classList.toggle('fullscreen-mode');
+                e.preventDefault(); // iOSやBluefyの邪魔なダブルタップズームを強制無効化
+            }
+            lastTapTime = currentTime;
         }
     });
 

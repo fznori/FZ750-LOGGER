@@ -691,9 +691,19 @@ gap:10px;
             STOP LOG
         </div>
 
-        <div style="margin-top:10px;">
-            RESET MAX
-        </div>
+<button
+    onclick="resetMax()"
+    style="
+    width:100%;
+    height:45px;
+    margin-top:10px;
+    background:#aa0000;
+    color:white;
+    font-weight:bold;">
+
+    RESET MAX
+
+</button>
 
         <hr style="margin:20px 0;">
 
@@ -1391,6 +1401,23 @@ function demoShiftLamp()
         "\nFlashRPM="
         + document.getElementById("shiftFlashRPM").value
     );
+}
+
+        async function resetMax()
+{
+    if(!bleCharacteristic)
+    {
+        alert("BLE未接続");
+        return;
+    }
+
+    await bleCharacteristic.writeValue(
+        new TextEncoder().encode(
+            "RESET_MAX"
+        )
+    );
+
+    alert("MAX RESET");
 }
 
 async function saveSettings()

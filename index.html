@@ -1374,6 +1374,15 @@ async function saveSettings()
 
     const shiftEnable =
         document.getElementById("shiftEnable").checked;
+    
+    const shiftStartRPM =
+    document.getElementById("shiftStartRPM").value;
+
+const shiftFlashRPM =
+    document.getElementById("shiftFlashRPM").value;
+
+const shiftFlashSpeed =
+    document.getElementById("shiftFlashSpeed").value;
 
     const cmds = [
 
@@ -1404,7 +1413,6 @@ for(const cmd of cmds)
 
 alert("設定送信完了");
 
-    alert("送信完了\n" + cmd);
 }
 
 function closeSettings()

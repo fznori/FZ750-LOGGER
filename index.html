@@ -1326,13 +1326,20 @@ async function openSettings()
         
 function demoShiftLamp()
 {
-    alert(
-        "Shift Lamp Demo\n" +
-        "StartRPM="
-        + document.getElementById("shiftStartRPM").value +
-        "\nFlashRPM="
-        + document.getElementById("shiftFlashRPM").value
+    async function demoShiftLamp()
+{
+    if(!bleCharacteristic)
+    {
+        alert("BLE未接続");
+        return;
+    }
+
+    await bleCharacteristic.writeValue(
+        new TextEncoder().encode(
+            "SHIFT_DEMO"
+        )
     );
+}
 }
 
         async function resetMax()

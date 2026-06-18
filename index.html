@@ -573,7 +573,92 @@ gap:10px;
 </head>
 
 <body>
-    <div class="top-bar">
+
+    <div id="settingsPage"
+     style="
+     display:none;
+     padding:10px;">
+
+    <div class="box">
+
+        <h2 style="margin-bottom:15px;">
+            SETTINGS
+        </h2>
+
+        <h3 style="color:#ff6a00;">
+            SHIFT LAMP
+        </h3>
+
+        <div style="margin-top:10px;">
+            Enable
+        </div>
+
+        <div style="margin-top:10px;">
+            Start RPM
+        </div>
+
+        <div style="margin-top:10px;">
+            Flash RPM
+        </div>
+
+        <div style="margin-top:10px;">
+            Flash Speed
+        </div>
+
+        <div style="margin-top:10px;">
+            Demo
+        </div>
+
+        <hr style="margin:20px 0;">
+
+        <h3 style="color:#00d0ff;">
+            LOGGER
+        </h3>
+
+        <div style="margin-top:10px;">
+            START LOG
+        </div>
+
+        <div style="margin-top:10px;">
+            STOP LOG
+        </div>
+
+        <div style="margin-top:10px;">
+            RESET MAX
+        </div>
+
+        <hr style="margin:20px 0;">
+
+        <h3 style="color:#00ff00;">
+            DEVICE
+        </h3>
+
+        <div style="margin-top:10px;">
+            Firmware V1.00
+        </div>
+
+        <div style="margin-top:10px;">
+            BLE Connected
+        </div>
+
+        <button
+            onclick="closeSettings()"
+            style="
+            margin-top:30px;
+            width:100%;
+            height:50px;
+            font-size:20px;
+            font-weight:bold;">
+            BACK
+        </button>
+
+    </div>
+</div>
+    
+   <div id="mainPage">
+
+<div class="top-bar">
+    
         <div class="btn-group">
             <button class="connect-btn" id="connectBtn" onclick="connectBLE()">Connect</button>
             <button class="mode-btn" id="modeBtn" onclick="toggleMode()">TOUR</button>
@@ -1188,14 +1273,25 @@ const led = document.getElementById('sdLed');
     } // handleDataChanged の閉じブラケット
 }
 
-        function openSettings()
+function openSettings()
 {
-    alert("設定画面は次回作成");
+    document.getElementById("mainPage").style.display = "none";
+
+    document.getElementById("settingsPage").style.display = "block";
+}
+
+function closeSettings()
+{
+    document.getElementById("settingsPage").style.display = "none";
+
+    document.getElementById("mainPage").style.display = "block";
 }
         function onDisconnected() {
             document.getElementById('connectBtn').innerText = "Connect";
             document.getElementById('connectBtn').classList.remove('connected');
         }
     </script>
+       </div>
+    
 </body>
 </html>

@@ -1375,13 +1375,34 @@ async function saveSettings()
     const shiftEnable =
         document.getElementById("shiftEnable").checked;
 
-    const cmd =
-        "SHIFT_ENABLE=" +
-        (shiftEnable ? "1" : "0");
+    const cmds = [
 
+    "SHIFT_ENABLE=" +
+    (shiftEnable ? "1" : "0"),
+
+    "SHIFT_START=" +
+    shiftStartRPM,
+
+    "SHIFT_FLASH=" +
+    shiftFlashRPM,
+
+    "SHIFT_SPEED=" +
+    shiftFlashSpeed
+
+];
+
+for(const cmd of cmds)
+{
     await bleCharacteristic.writeValue(
         new TextEncoder().encode(cmd)
     );
+
+    await new Promise(
+        resolve => setTimeout(resolve, 100)
+    );
+}
+
+alert("設定送信完了");
 
     alert("送信完了\n" + cmd);
 }

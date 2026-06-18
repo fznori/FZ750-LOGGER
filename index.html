@@ -1417,6 +1417,21 @@ function demoShiftLamp()
         )
     );
 
+    peakL = 0;
+peakR = 0;
+peakRpm = 0;
+peakSpeed = 0;
+
+localStorage.setItem('peakL',0);
+localStorage.setItem('peakR',0);
+localStorage.setItem('peakRpm',0);
+localStorage.setItem('peakSpeed',0);
+
+document.getElementById('maxL').innerText = "0";
+document.getElementById('maxR').innerText = "0";
+document.getElementById('maxRpmVal').innerText = "MAX 0";
+document.getElementById('maxSpeedVal').innerText = "MAX 0";
+    
     alert("MAX RESET");
 }
 

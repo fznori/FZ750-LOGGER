@@ -660,7 +660,9 @@ gap:10px;
 
     DEMO
 
-    <button
+</button>
+
+<button
     onclick="saveSettings()"
     style="
     width:100%;
@@ -673,8 +675,7 @@ gap:10px;
     SAVE
 
 </button>
-
-</button>
+   
 
         <hr style="margin:20px 0;">
 
@@ -899,6 +900,7 @@ LOGGING
     <script>
         const SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
         const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+        let bleCharacteristic = null;
 let peakL = parseFloat(localStorage.getItem('peakL')) || 0;
 let peakR = parseFloat(localStorage.getItem('peakR')) || 0;
 let peakRpm = parseInt(localStorage.getItem('peakRpm')) || 0;
@@ -1138,9 +1140,13 @@ const ty = 100 + 74 * Math.sin(rad);
                 });
                 const server = await device.gatt.connect();
                 const service = await server.getPrimaryService(SERVICE_UUID);
-                const characteristic = await service.getCharacteristic(CHARACTERISTIC_UUID);
-                await characteristic.startNotifications();
-                characteristic.addEventListener('characteristicvaluechanged', handleDataChanged);
+                bleCharacteristic =
+    await service.getCharacteristic(
+        CHARACTERISTIC_UUID
+    );
+await bleCharacteristic.startNotifications();
+
+bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChanged);
 
                 document.getElementById('connectBtn').innerText = "CONNECTED";
                 document.getElementById('connectBtn').classList.add('connected');
@@ -1358,41 +1364,26 @@ function demoShiftLamp()
     );
 }
 
-function saveSettings()
+async function saveSettings()
 {
+    if(!bleCharacteristic)
+    {
+        alert("BLE未接続");
+        return;
+    }
+
     const shiftEnable =
         document.getElementById("shiftEnable").checked;
 
-    const shiftStartRPM =
-        parseInt(
-            document.getElementById("shiftStartRPM").value
-        );
+    const cmd =
+        "SHIFT_ENABLE=" +
+        (shiftEnable ? "1" : "0");
 
-    const shiftFlashRPM =
-        parseInt(
-            document.getElementById("shiftFlashRPM").value
-        );
-
-    const shiftFlashSpeed =
-        parseInt(
-            document.getElementById("shiftFlashSpeed").value
-        );
-
-    alert(
-        "SAVE OK\n\n" +
-
-        "Enable = " +
-        shiftEnable +
-
-        "\nStart RPM = " +
-        shiftStartRPM +
-
-        "\nFlash RPM = " +
-        shiftFlashRPM +
-
-        "\nFlash Speed = " +
-        shiftFlashSpeed
+    await bleCharacteristic.writeValue(
+        new TextEncoder().encode(cmd)
     );
+
+    alert("送信完了\n" + cmd);
 }
 
 function closeSettings()

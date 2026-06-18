@@ -1159,6 +1159,26 @@ bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChang
         function handleDataChanged(event) {
             let decoder = new TextDecoder('utf-8');
             let strData = decoder.decode(event.target.value);
+
+            if(strData.startsWith("SETTINGS,"))
+{
+    let s = strData.split(",");
+
+    document.getElementById("shiftEnable").checked =
+        (s[1] == "1");
+
+    document.getElementById("shiftStartRPM").value =
+        s[2];
+
+    document.getElementById("shiftFlashRPM").value =
+        s[3];
+
+    document.getElementById("shiftFlashSpeed").value =
+        s[4];
+
+    return;
+}
+            
             let data = strData.split(',');
 
             if (data.length >= 11) {
@@ -1346,11 +1366,20 @@ const led = document.getElementById('sdLed');
     } // handleDataChanged の閉じブラケット
 }
 
-function openSettings()
+async function openSettings()
 {
     document.getElementById("mainPage").style.display = "none";
 
     document.getElementById("settingsPage").style.display = "block";
+
+    if(bleCharacteristic)
+    {
+        await bleCharacteristic.writeValue(
+            new TextEncoder().encode(
+                "GET_SETTINGS"
+            )
+        );
+    }
 }
         
 function demoShiftLamp()

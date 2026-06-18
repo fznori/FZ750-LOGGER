@@ -89,10 +89,38 @@
             box-shadow: 0 0 10px rgba(224, 0, 224, 0.5);
         }
         
-function openSettings()
-{
-    alert("設定画面は次回作成");
+#settingBtn{
+
+    width:42px;
+    height:42px;
+
+    margin-left:10px;
+
+    border-radius:12px;
+
+    border:2px solid #ff6a00;
+
+    background:#111;
+
+    color:white;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    z-index:9999;
+
+    position:relative;
+
+    box-shadow:
+        0 0 10px rgba(255,106,0,0.4);
 }
+
+#settingBtn:active{
+
+    transform:scale(0.95);
+}
+        
 .header-title {
 
     #settingBtn{
@@ -1185,6 +1213,11 @@ const led = document.getElementById('sdLed');
             led.className = "blink-slow";   
         }
     } // handleDataChanged の閉じブラケット
+}
+
+        function openSettings()
+{
+    alert("設定画面は次回作成");
 }
         function onDisconnected() {
             document.getElementById('connectBtn').innerText = "Connect";

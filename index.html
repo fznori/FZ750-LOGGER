@@ -911,10 +911,10 @@ LOGGING
         const SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
         const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
         let bleCharacteristic = null;
-let peakL = parseFloat(localStorage.getItem('peakL')) || 0;
-let peakR = parseFloat(localStorage.getItem('peakR')) || 0;
-let peakRpm = parseInt(localStorage.getItem('peakRpm')) || 0;
-let peakSpeed = parseFloat(localStorage.getItem('peakSpeed')) || 0;
+let peakL = 0;
+let peakR = 0;
+let peakRpm = 0;
+let peakSpeed = 0;
         let isCircuitMode = false;
         let resetTimer = null;
 
@@ -946,55 +946,7 @@ let peakSpeed = parseFloat(localStorage.getItem('peakSpeed')) || 0;
     document.getElementById('maxRpmVal').innerText = "MAX " + peakRpm;
     document.getElementById('maxSpeedVal').innerText = "MAX " + peakSpeed.toFixed(0);
 
-            // 各リセット対象に長押しイベント設定
-            document.getElementById('resetMaxL').addEventListener('dblclick', () => {
-                peakL = 0;
-                localStorage.setItem('peakL', 0);
-                const el = document.getElementById('maxL');
-                el.innerText = 'RST';
-                el.classList.add('reset-flash');
-                setTimeout(() => {
-                    el.innerText = '0';
-                    el.classList.remove('reset-flash');
-                }, 800);
-            });
-
-            document.getElementById('resetMaxR').addEventListener('dblclick', () => {
-                peakR = 0;
-                localStorage.setItem('peakR', 0);
-                const el = document.getElementById('maxR');
-                el.innerText = 'RST';
-                el.classList.add('reset-flash');
-                setTimeout(() => {
-                    el.innerText = '0';
-                    el.classList.remove('reset-flash');
-                }, 800);
-            });
-
-            document.getElementById('resetRpm').addEventListener('dblclick', () => {
-                peakRpm = 0;
-                localStorage.setItem('peakRpm', 0);
-                const el = document.getElementById('maxRpmVal');
-                el.innerText = 'RESET';
-                el.classList.add('reset-flash');
-                setTimeout(() => {
-                    el.innerText = 'MAX 0';
-                    el.classList.remove('reset-flash');
-                }, 800);
-            });
-
-            document.getElementById('resetSpd').addEventListener('dblclick', () => {
-                peakSpeed = 0;
-                localStorage.setItem('peakSpeed', 0);
-                const el = document.getElementById('maxSpeedVal');
-                el.innerText = 'RESET';
-                el.classList.add('reset-flash');
-                setTimeout(() => {
-                    el.innerText = 'MAX 0';
-                    el.classList.remove('reset-flash');
-                }, 800);
-            });
-    
+            
 
        function toggleMode() {
             isCircuitMode = !isCircuitMode;
@@ -1191,7 +1143,7 @@ bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChang
             
             let data = strData.split(',');
 
-            if (data.length >= 11) {
+            if (data.length >= 13) {
                 let bank = parseFloat(data[0]);
                 let rpm = parseInt(data[3]);
                 let speed = parseFloat(data[4]);
@@ -1201,36 +1153,16 @@ bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChang
                 let freePercent = parseFloat(data[8]);
                 let logCount = parseInt(data[9]);
                 let saveNow = parseInt(data[10]);
+                peakRpm = parseInt(data[11]);
+                peakSpeed = parseFloat(data[12]);
+
+                peakL = parseFloat(data[1]);
+                peakR = parseFloat(data[2]);
 
 
 
                 if (isNaN(bank)) return;
 
-// バンク角のMAX更新
-if (bank < 0) {
-    let absBank = Math.abs(bank);
-    if (absBank > peakL) {
-        peakL = absBank;
-        localStorage.setItem('peakL', peakL); // ★保存を追加
-    }
-} else {
-    if (bank > peakR) {
-        peakR = bank;
-        localStorage.setItem('peakR', peakR); // ★保存を追加
-    }
-}
-
-// RPMのMAX更新
-if (rpm > peakRpm) {
-    peakRpm = rpm;
-    localStorage.setItem('peakRpm', peakRpm); // ★保存を追加
-}
-
-// SPEEDのMAX更新
-if (speed > peakSpeed) {
-    peakSpeed = speed;
-    localStorage.setItem('peakSpeed', peakSpeed); // ★保存を追加
-}
 
                 // UI更新
                 if (Math.abs(bank) < 1.5) {
@@ -1421,11 +1353,6 @@ function demoShiftLamp()
 peakR = 0;
 peakRpm = 0;
 peakSpeed = 0;
-
-localStorage.setItem('peakL',0);
-localStorage.setItem('peakR',0);
-localStorage.setItem('peakRpm',0);
-localStorage.setItem('peakSpeed',0);
 
 document.getElementById('maxL').innerText = "0";
 document.getElementById('maxR').innerText = "0";

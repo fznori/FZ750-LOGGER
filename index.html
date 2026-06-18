@@ -1439,7 +1439,11 @@ for(const cmd of cmds)
         resolve => setTimeout(resolve, 100)
     );
 }
-
+await bleCharacteristic.writeValue(
+    new TextEncoder().encode(
+        "SAVE_SETTINGS"
+    )
+);
 alert("設定送信完了");
 
 }

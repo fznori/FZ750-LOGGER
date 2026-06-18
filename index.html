@@ -123,35 +123,7 @@
         
 .header-title {
 
-    #settingBtn{
 
-    width:42px;
-    height:42px;
-
-    margin-left:10px;
-
-    border-radius:12px;
-
-    border:2px solid #ff6a00;
-
-    background:#111;
-
-    color:white;
-
-    font-size:24px;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 0 10px rgba(255,106,0,0.4);
-
-}
-
-#settingBtn:active{
-
-    transform:scale(0.95);
-
-}
     
             font-size: 20px;
             font-weight: 900;
@@ -162,9 +134,10 @@
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 
             /* 👇 どんなモードの妨害が入っても、絶対に縦2段・右寄せに固定するお守り */
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: flex-end !important;
+display:flex;
+flex-direction:row;
+align-items:center;
+gap:10px;
         }
 
         /* Common Box Style */

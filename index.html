@@ -589,25 +589,78 @@ gap:10px;
             SHIFT LAMP
         </h3>
 
-        <div style="margin-top:10px;">
-            Enable
-        </div>
+<div style="margin-top:15px;">
 
-        <div style="margin-top:10px;">
-            Start RPM
-        </div>
+    <label>
+        Enable
+    </label>
 
-        <div style="margin-top:10px;">
-            Flash RPM
-        </div>
+    <input
+        type="checkbox"
+        id="shiftEnable"
+        checked
+        style="margin-left:10px;">
 
-        <div style="margin-top:10px;">
-            Flash Speed
-        </div>
+</div>
 
-        <div style="margin-top:10px;">
-            Demo
-        </div>
+<div style="margin-top:15px;">
+
+    <label>
+        Start RPM
+    </label>
+
+    <input
+        id="shiftStartRPM"
+        type="number"
+        value="9500"
+        style="
+        width:100%;
+        margin-top:5px;">
+
+</div>
+
+<div style="margin-top:15px;">
+
+    <label>
+        Flash RPM
+    </label>
+
+    <input
+        id="shiftFlashRPM"
+        type="number"
+        value="10500"
+        style="
+        width:100%;
+        margin-top:5px;">
+
+</div>
+
+<div style="margin-top:15px;">
+
+    <label>
+        Flash Speed(ms)
+    </label>
+
+    <input
+        id="shiftFlashSpeed"
+        type="number"
+        value="20"
+        style="
+        width:100%;
+        margin-top:5px;">
+
+</div>
+
+<button
+    onclick="demoShiftLamp()"
+    style="
+    width:100%;
+    height:45px;
+    margin-top:15px;">
+
+    DEMO
+
+</button>
 
         <hr style="margin:20px 0;">
 
@@ -1279,7 +1332,18 @@ function openSettings()
 
     document.getElementById("settingsPage").style.display = "block";
 }
-
+        
+function demoShiftLamp()
+{
+    alert(
+        "Shift Lamp Demo\n" +
+        "StartRPM="
+        + document.getElementById("shiftStartRPM").value +
+        "\nFlashRPM="
+        + document.getElementById("shiftFlashRPM").value
+    );
+}
+        
 function closeSettings()
 {
     document.getElementById("settingsPage").style.display = "none";

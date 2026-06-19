@@ -679,17 +679,25 @@ gap:10px;
 
         <hr style="margin:20px 0;">
 
-        <h3 style="color:#00d0ff;">
-            LOGGER
-        </h3>
+<h3 style="color:#00d0ff;">
+    BLE
+</h3>
 
-        <div style="margin-top:10px;">
-            START LOG
-        </div>
+<div style="margin-top:15px;">
 
-        <div style="margin-top:10px;">
-            STOP LOG
-        </div>
+    <label>
+        Update Interval(ms)
+    </label>
+
+    <input
+        id="bleInterval"
+        type="number"
+        value="150"
+        style="
+        width:100%;
+        margin-top:5px;">
+
+</div>
 
 <button
     onclick="resetMax()"
@@ -1135,10 +1143,13 @@ bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChang
     document.getElementById("shiftFlashRPM").value =
         s[3];
 
-    document.getElementById("shiftFlashSpeed").value =
-        s[4];
+document.getElementById("shiftFlashSpeed").value =
+    s[4];
 
-    return;
+document.getElementById("bleInterval").value =
+    s[5];
+
+return;
 }
             
             let data = strData.split(',');
@@ -1391,7 +1402,10 @@ const shiftFlashRPM =
 const shiftFlashSpeed =
     document.getElementById("shiftFlashSpeed").value;
 
-    const cmds = [
+    const bleInterval =
+    document.getElementById("bleInterval").value;
+
+const cmds = [
 
     "SHIFT_ENABLE=" +
     (shiftEnable ? "1" : "0"),
@@ -1403,7 +1417,10 @@ const shiftFlashSpeed =
     shiftFlashRPM,
 
     "SHIFT_SPEED=" +
-    shiftFlashSpeed
+    shiftFlashSpeed,
+
+    "BLE_INTERVAL=" +
+    bleInterval
 
 ];
 

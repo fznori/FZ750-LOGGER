@@ -1143,7 +1143,7 @@ bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChang
             
             let data = strData.split(',');
 
-            if (data.length >= 13) {
+            if (data.length >= 14) {
                 let bank = parseFloat(data[0]);
                 let rpm = parseInt(data[3]);
                 let speed = parseFloat(data[4]);
@@ -1155,6 +1155,7 @@ bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChang
                 let saveNow = parseInt(data[10]);
                 peakRpm = parseInt(data[11]);
                 peakSpeed = parseFloat(data[12]);
+                let sdStatusOK = parseInt(data[13]);
 
                 peakL = parseFloat(data[1]);
                 peakR = parseFloat(data[2]);
@@ -1285,22 +1286,30 @@ border-radius:3px;
 transition:0.3s;">
 </div>
 `;
-
 const led = document.getElementById('sdLed');
-        const status = document.getElementById('sdStatus');
+const status = document.getElementById('sdStatus');
 
-        if (saveNow == 1) {
-            status.innerText = "SAVE";
+if(sdStatusOK)
+{
+    status.innerText = "OK";
+
+    status.style.color = "#00ff00";
+
+    led.style.color = "#00ff00";
+
+    led.className = "blink-on";
+}
+else
+{
+    status.innerText = "ERROR";
+
     status.style.color = "#ff0000";
+
     led.style.color = "#ff0000";
+
     led.className = "blink-fast";
 }
-else {
-    status.innerText = "LOGGING";
-    status.style.color = "#00ff00";
-    led.style.color = "#00ff00";
-    led.className = "blink-slow";
-}
+
     } // handleDataChanged の閉じブラケット
 }
 

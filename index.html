@@ -1295,11 +1295,7 @@ const led = document.getElementById('sdLed');
             led.style.color = "#ff0000";
             led.className = "blink-fast"; // 高速点滅クラスを適用
         } else if (logCount > 0) {
-            status.innerText = "BUFFER";
-            status.style.color = "#ffff00";
-            led.style.color = "#ffff00";
-            led.className = "blink-slow"; // 低速点滅クラスを適用
-        } else {
+ else {
             status.innerText = "LOGGING";
             status.style.color = "#00ff00";
             led.style.color = "#00ff00";

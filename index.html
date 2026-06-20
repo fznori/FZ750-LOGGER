@@ -688,7 +688,49 @@ gap:10px;
     SAVE
 
 </button>
-   
+
+        <hr style="margin:20px 0;">
+
+<h3 style="color:#ffff00;">
+    LOGGING
+</h3>
+
+<div style="margin-top:15px;">
+
+    <label>
+        Sample Interval(ms)
+    </label>
+
+    <select
+        id="logInterval"
+        style="
+        width:100%;
+        margin-top:5px;
+        height:35px;">
+
+        <option value="50">
+            50 (20Hz)
+        </option>
+
+        <option value="100" selected>
+            100 (10Hz)
+        </option>
+
+        <option value="200">
+            200 (5Hz)
+        </option>
+
+        <option value="500">
+            500 (2Hz)
+        </option>
+
+        <option value="1000">
+            1000 (1Hz)
+        </option>
+
+    </select>
+
+</div>
 
         <hr style="margin:20px 0;">
 
@@ -1149,6 +1191,9 @@ document.getElementById("shiftFlashSpeed").value =
 document.getElementById("bleInterval").value =
     s[5];
 
+document.getElementById("logInterval").value =
+    s[6];
+
 return;
 }
             
@@ -1405,6 +1450,9 @@ const shiftFlashSpeed =
     const bleInterval =
     document.getElementById("bleInterval").value;
 
+    const logInterval =
+    document.getElementById("logInterval").value;
+
 const cmds = [
 
     "SHIFT_ENABLE=" +
@@ -1420,7 +1468,10 @@ const cmds = [
     shiftFlashSpeed,
 
     "BLE_INTERVAL=" +
-    bleInterval
+    bleInterval,
+
+    "LOG_INTERVAL=" +
+    logInterval
 
 ];
 

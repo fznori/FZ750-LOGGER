@@ -1199,7 +1199,7 @@ return;
             
             let data = strData.split(',');
 
-            if (data.length >= 14) {
+            if (data.length >= 16) {
                 let bank = parseFloat(data[0]);
                 let rpm = parseInt(data[3]);
                 let speed = parseFloat(data[4]);
@@ -1212,6 +1212,8 @@ return;
                 peakRpm = parseInt(data[11]);
                 peakSpeed = parseFloat(data[12]);
                 let sdStatusOK = parseInt(data[13]);
+                let gpsFix = parseInt(data[14]);
+                let satCount = parseInt(data[15]);
 
                 peakL = parseFloat(data[1]);
                 peakR = parseFloat(data[2]);
@@ -1256,6 +1258,26 @@ document.getElementById('tempVal').innerText =
 
 document.getElementById('humiVal').innerText =
     humi.toFixed(0);
+
+                let fixText;
+
+switch (gpsFix)
+{
+    case 3:
+        fixText = "3D FIX";
+        break;
+
+    case 2:
+        fixText = "2D FIX";
+        break;
+
+    default:
+        fixText = "NO FIX";
+        break;
+}
+
+document.getElementById("gpsFix").innerText = fixText;
+document.getElementById("satCount").innerText = satCount;
 
 const tempEl = document.getElementById('tempVal');
 

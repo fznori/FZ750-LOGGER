@@ -1414,8 +1414,23 @@ if(freePercent < 30)
     barColor = "#ff0000";
 }
 
-document.getElementById('sdValue').innerText =
-    freePercent.toFixed(1) + "%";
+const sdValue = document.getElementById("sdValue");
+
+sdValue.innerHTML =
+    freePercent.toFixed(1) + "<span style='font-size:15px;'> %</span>";
+
+if(freePercent >= 70)
+{
+    sdValue.style.color = "#00ff00";
+}
+else if(freePercent >= 30)
+{
+    sdValue.style.color = "#ffff00";
+}
+else
+{
+    sdValue.style.color = "#ff3030";
+}
 
                                
 document.getElementById('sdBarContainer').innerHTML =

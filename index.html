@@ -1321,7 +1321,26 @@ switch (gpsFix)
         break;
 }
 
-document.getElementById("gpsFix").innerText = fixText;
+const gpsFixEl = document.getElementById("gpsFix");
+
+gpsFixEl.innerText = fixText;
+
+switch(gpsFix)
+{
+    case 3:
+        gpsFixEl.style.color = "#00ff00";   // 緑
+        break;
+
+    case 2:
+        gpsFixEl.style.color = "#ffff00";   // 黄
+        break;
+
+    default:
+        gpsFixEl.style.color = "#ff3030";   // 赤
+        break;
+}
+
+document.getElementById("satCount").innerText = satCount;
 document.getElementById("satCount").innerText = satCount;
 
 const tempEl = document.getElementById('tempVal');

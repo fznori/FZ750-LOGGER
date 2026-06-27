@@ -991,6 +991,44 @@ let peakSpeed = 0;
     buildBankIndicator();
     buildSDBar();
 
+        const ls = localStorage;
+
+if(ls.getItem("shiftEnable") !== null)
+{
+    document.getElementById("shiftEnable").checked =
+        (ls.getItem("shiftEnable") === "1");
+}
+
+if(ls.getItem("shiftStartRPM"))
+{
+    document.getElementById("shiftStartRPM").value =
+        ls.getItem("shiftStartRPM");
+}
+
+if(ls.getItem("shiftFlashRPM"))
+{
+    document.getElementById("shiftFlashRPM").value =
+        ls.getItem("shiftFlashRPM");
+}
+
+if(ls.getItem("shiftFlashSpeed"))
+{
+    document.getElementById("shiftFlashSpeed").value =
+        ls.getItem("shiftFlashSpeed");
+}
+
+if(ls.getItem("bleInterval"))
+{
+    document.getElementById("bleInterval").value =
+        ls.getItem("bleInterval");
+}
+
+if(ls.getItem("logInterval"))
+{
+    document.getElementById("logInterval").value =
+        ls.getItem("logInterval");
+}
+
     document.getElementById('maxL').innerText = peakL.toFixed(0);
     document.getElementById('maxR').innerText = peakR.toFixed(0);
     document.getElementById('maxRpmVal').innerText = "MAX " + peakRpm;
@@ -1193,6 +1231,13 @@ document.getElementById("bleInterval").value =
 
 document.getElementById("logInterval").value =
     s[6];
+
+    localStorage.setItem("shiftEnable", s[1]);
+localStorage.setItem("shiftStartRPM", s[2]);
+localStorage.setItem("shiftFlashRPM", s[3]);
+localStorage.setItem("shiftFlashSpeed", s[4]);
+localStorage.setItem("bleInterval", s[5]);
+localStorage.setItem("logInterval", s[6]);
 
 return;
 }
@@ -1512,6 +1557,37 @@ await bleCharacteristic.writeValue(
         "SAVE_SETTINGS"
     )
 );
+
+    localStorage.setItem(
+    "shiftEnable",
+    shiftEnable ? "1" : "0"
+);
+
+localStorage.setItem(
+    "shiftStartRPM",
+    shiftStartRPM
+);
+
+localStorage.setItem(
+    "shiftFlashRPM",
+    shiftFlashRPM
+);
+
+localStorage.setItem(
+    "shiftFlashSpeed",
+    shiftFlashSpeed
+);
+
+localStorage.setItem(
+    "bleInterval",
+    bleInterval
+);
+
+localStorage.setItem(
+    "logInterval",
+    logInterval
+);
+    
 alert("設定送信完了");
 
 }

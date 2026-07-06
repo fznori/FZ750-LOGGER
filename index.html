@@ -1208,14 +1208,11 @@ bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChang
     document.getElementById("shiftFlashRPM").value =
         s[3];
 
-document.getElementById("shiftFlashSpeed").value =
+document.getElementById("bleInterval").value =
     s[4];
 
-document.getElementById("bleInterval").value =
-    s[5];
-
 document.getElementById("logInterval").value =
-    s[6];
+    s[5];
 
     localStorage.setItem("shiftEnable", s[1]);
 localStorage.setItem("shiftStartRPM", s[2]);

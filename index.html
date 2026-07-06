@@ -682,6 +682,31 @@ gap:10px;
 
 <div style="margin-top:15px;">
 
+<label>
+        Circuit Mode
+    </label>
+
+    <select
+        id="circuitMode"
+        style="
+        width:100%;
+        margin-top:5px;
+        height:35px;">
+
+        <option value="0">
+            OFF
+        </option>
+
+        <option value="1">
+            ON
+        </option>
+
+    </select>
+
+</div>
+
+<div style="margin-top:15px;">
+
     <label>
         Sample Interval(ms)
     </label>
@@ -1208,6 +1233,9 @@ document.getElementById("bleInterval").value =
 document.getElementById("logInterval").value =
     s[5];
 
+    document.getElementById("circuitMode").value =
+    s[6];
+
     localStorage.setItem("shiftEnable", s[1]);
 localStorage.setItem("shiftStartRPM", s[2]);
 localStorage.setItem("shiftFlashRPM", s[3]);
@@ -1526,6 +1554,9 @@ const shiftFlashRPM =
     const logInterval =
     document.getElementById("logInterval").value;
 
+    const circuitMode =
+    document.getElementById("circuitMode").value;
+
 const cmds = [
 
     "SHIFT_ENABLE=" +
@@ -1541,7 +1572,10 @@ const cmds = [
     bleInterval,
 
     "LOG_INTERVAL=" +
-    logInterval
+    logInterval,
+
+    "CIRCUIT_MODE=" +
+    circuitMode
 
 ];
 

@@ -1520,9 +1520,6 @@ async function saveSettings()
 const shiftFlashRPM =
     document.getElementById("shiftFlashRPM").value;
 
-const shiftFlashSpeed =
-    document.getElementById("shiftFlashSpeed").value;
-
     const bleInterval =
     document.getElementById("bleInterval").value;
 
@@ -1539,9 +1536,6 @@ const cmds = [
 
     "SHIFT_FLASH=" +
     shiftFlashRPM,
-
-    "SHIFT_SPEED=" +
-    shiftFlashSpeed,
 
     "BLE_INTERVAL=" +
     bleInterval,
@@ -1580,11 +1574,6 @@ localStorage.setItem(
 localStorage.setItem(
     "shiftFlashRPM",
     shiftFlashRPM
-);
-
-localStorage.setItem(
-    "shiftFlashSpeed",
-    shiftFlashSpeed
 );
 
 localStorage.setItem(

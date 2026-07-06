@@ -996,12 +996,6 @@ if(ls.getItem("shiftFlashRPM"))
         ls.getItem("shiftFlashRPM");
 }
 
-if(ls.getItem("shiftFlashSpeed"))
-{
-    document.getElementById("shiftFlashSpeed").value =
-        ls.getItem("shiftFlashSpeed");
-}
-
 if(ls.getItem("bleInterval"))
 {
     document.getElementById("bleInterval").value =
@@ -1217,9 +1211,8 @@ document.getElementById("logInterval").value =
     localStorage.setItem("shiftEnable", s[1]);
 localStorage.setItem("shiftStartRPM", s[2]);
 localStorage.setItem("shiftFlashRPM", s[3]);
-localStorage.setItem("shiftFlashSpeed", s[4]);
-localStorage.setItem("bleInterval", s[5]);
-localStorage.setItem("logInterval", s[6]);
+localStorage.setItem("bleInterval", s[4]);
+localStorage.setItem("logInterval", s[5]);
 
 return;
 }

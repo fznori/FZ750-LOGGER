@@ -1257,9 +1257,8 @@ const ty = 100 + 74 * Math.sin(rad);
 
         async function connectBLE() {
             try {
-                const device = await navigator.bluetooth.requestDevice({
-acceptAllDevices: true,
-optionalServices: [SERVICE_UUID]
+const device = await navigator.bluetooth.requestDevice({
+    filters: [{ services: [SERVICE_UUID] }]
                 });
                 bleDevice = device; // 【追加】後でCIRCUITモード突入時に自己切断するため保持
                 const server = await device.gatt.connect();

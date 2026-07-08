@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
         }
- 
+
        body {
             background-color: #050505;
             color: #ffffff;
@@ -32,7 +32,7 @@
             
             user-select: none;
         }
- 
+
         /* Top Bar */
         .top-bar {
             display: flex;
@@ -41,12 +41,12 @@
             width: 100%;
             margin-bottom: 6px;
         }
- 
+
         .btn-group {
             display: flex;
             gap: 6px;
         }
- 
+
         .connect-btn {
             background: #d11;
             color: white;
@@ -61,12 +61,12 @@
             letter-spacing: 1px;
             transition: all 0.3s ease;
         }
- 
+
         .connect-btn.connected {
             background: #00e000;
             box-shadow: 0 0 15px rgba(0, 224, 0, 0.6);
         }
- 
+
         /* モード切替ボタン */
         .mode-btn {
             background: #333;
@@ -81,7 +81,7 @@
             letter-spacing: 1px;
             transition: all 0.3s ease;
         }
- 
+
         .mode-btn.circuit {
             background: #e000e0;
             color: #fff;
@@ -90,40 +90,40 @@
         }
         
 #settingBtn{
- 
+
     width:34px;
     height:34px;
- 
+
     margin-left:10px;
- 
+
     border-radius:12px;
- 
+
     border:2px solid #ff6a00;
- 
+
     background:#111;
- 
+
     color:white;
- 
+
     font-size:18px;
- 
+
     cursor:pointer;
- 
+
     z-index:9999;
- 
+
     position:relative;
- 
+
     box-shadow:
         0 0 10px rgba(255,106,0,0.4);
 }
- 
+
 #settingBtn:active{
- 
+
     transform:scale(0.95);
 }
         
 .header-title {
- 
- 
+
+
     
             font-size: 16px;
             font-weight: 900;
@@ -132,14 +132,14 @@
             letter-spacing: 1px;
             text-align: right;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
- 
+
             /* 👇 どんなモードの妨害が入っても、絶対に縦2段・右寄せに固定するお守り */
 display:flex;
 flex-direction:row;
 align-items:center;
 gap:10px;
         }
- 
+
         /* Common Box Style */
         .box {
             background: #121212;
@@ -148,14 +148,14 @@ gap:10px;
             padding: 8px;
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.5);
         }
- 
+
         /* Bank Angle Section */
         .bank-container {
             text-align: center;
             width: 100%;
             margin-bottom: 6px;
         }
- 
+
         .section-label {
             font-size: 11px;
             color: #8c8c8c;
@@ -163,7 +163,7 @@ gap:10px;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
- 
+
         .bank-value-wrap {
             font-size: 60px;
             font-weight: 900;
@@ -173,28 +173,28 @@ gap:10px;
             font-family: 'Impact', sans-serif;
             letter-spacing: 2px;
         }
- 
+
         .bank-direction {
             font-size: 38px;
             margin-left: 4px;
             font-weight: 900;
         }
- 
+
         .dir-L {
             color: #00e000;
         }
- 
+
         .dir-R {
             color: #ff2222;
         }
- 
+
         /* Visual Indicator */
         .indicator-wrap {
             position: relative;
             width: 100%;
             margin: 6px 0;
         }
- 
+
         .seg-container {
             display: flex;
             justify-content: center;
@@ -203,22 +203,22 @@ gap:10px;
             width: 100%;
             padding: 0 4px;
         }
- 
+
         .seg-clip {
             height: 22px;
             flex: 1;
             background: #222;
             transition: background 0.1s ease;
         }
- 
+
         .seg-l {
             clip-path: polygon(100% 0%, 35% 0%, 0% 50%, 35% 100%, 100% 100%, 65% 50%);
         }
- 
+
         .seg-r {
             clip-path: polygon(0% 0%, 65% 0%, 100% 50%, 65% 100%, 0% 100%, 35% 50%);
         }
- 
+
         .indicator-scale {
             display: flex;
             justify-content: space-between;
@@ -228,11 +228,11 @@ gap:10px;
             font-weight: bold;
             color: #555555;
         }
- 
+
         .scale-val.active {
             color: #8c8c8c;
         }
- 
+
         .cursor-bar {
             position: absolute;
             top: -2px;
@@ -245,7 +245,7 @@ gap:10px;
             transition: left 0.05s ease-out;
             z-index: 10;
         }
- 
+
         /* Max Bank Row */
         .max-bank-row {
             display: grid;
@@ -254,7 +254,7 @@ gap:10px;
             width: 100%;
             margin-bottom: 6px;
         }
- 
+
         .max-box {
             display: flex;
             -webkit-touch-callout: none;
@@ -266,27 +266,27 @@ gap:10px;
             background: #161616;
             cursor: pointer;
         }
- 
+
         .max-title {
             font-size: 10px;
             color: #777777;
             font-weight: bold;
             letter-spacing: 1px;
         }
- 
+
         .max-val {
             font-size: 22px;
             font-weight: 900;
             margin-top: 2px;
             font-family: monospace;
         }
- 
+
         .max-val span {
             font-size: 14px;
             margin-right: 4px;
             font-weight: 900;
         }
- 
+
         /* Twin Meters Section */
 .meters-row {
     display:flex;
@@ -294,7 +294,7 @@ gap:10px;
     width:100%;
     flex:1.2;
 }
- 
+
       .meter-wrapper {
     position: relative;
     flex: 1;
@@ -304,13 +304,13 @@ gap:10px;
     justify-content: center;
     align-items: center;
 }
- 
+
 .meter-face {
     position: relative;
- 
+
     width: 170px;
     height: 170px;
- 
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -318,20 +318,20 @@ gap:10px;
 .meter-bg {
     width: 120%;
     max-width: 170px;
- 
+
     height: auto;
- 
+
     object-fit: contain;
 }
- 
+
 .needle {
     position: absolute;
- 
+
     width: 5px;
     height: 38%;
- 
+
     background: #ff6a00;
- 
+
     clip-path: polygon(
         0% 100%,
         0% 5%,
@@ -339,43 +339,43 @@ gap:10px;
         100% 5%,
         100% 100%
     );
- 
+
     transform-origin: bottom center;
- 
+
     transition: transform 0.1s ease-out;
 }
- 
+
 #speedNeedle {
     left: 48%;
     bottom: 50%;
 }
- 
+
 #rpmNeedle {
     left: 49%;
     bottom: 50%;
 }
- 
- 
- 
+
+
+
 .needle::after {
     content: "";
- 
+
     position: absolute;
- 
+
     width: 12px;
     height: 12px;
- 
+
     background: #000;
- 
+
     border-radius: 50%;
- 
+
     bottom: -6px;
     left: 50%;
- 
+
     transform: translateX(-50%);
 }
- 
- 
+
+
         .meter-center-text {
     position: absolute;
     left: 50%;
@@ -383,7 +383,7 @@ gap:10px;
     transform: translate(-50%, -50%);
     text-align: center;
 }
- 
+
         .meter-num {
     font-size: 36px;
     font-weight: 900;
@@ -392,27 +392,27 @@ gap:10px;
     color: #ffffff;
     text-shadow: 0 0 6px rgba(255,255,255,0.4);
 }
- 
+
         .meter-max {
     position: absolute;
     top: 55px;
     left: 50%;
     transform: translateX(-50%);
- 
+
     font-size: 12px;
     color: #cccccc;
- 
+
     font-weight: 900;
     letter-spacing: 1px;
- 
+
     white-space: nowrap;
 }
- 
+
         .reset-flash {
             color: #00ff00 !important;
             text-shadow: 0 0 10px #00ff00;
         }
- 
+
         /* Bottom Info Zone */
         .bottom-zone {
             display: flex;
@@ -420,54 +420,54 @@ gap:10px;
             gap: 6px;
             width: 100%;
         }
- 
+
         .gps-lap-box {
             width: 100%;
         }
- 
+
         .info-table {
             width: 100%;
             border-collapse: collapse;
         }
- 
+
         .info-table td {
             padding: 4px;
             font-size: 12px;
             font-weight: bold;
         }
- 
+
         .info-table tr:not(:last-child) {
             border-bottom: 1px solid #1f1f1f;
         }
- 
+
         .info-icon-label {
             color: #8c8c8c;
             display: flex;
             align-items: center;
             gap: 6px;
         }
- 
+
         .info-value-data {
             text-align: right;
             font-family: monospace;
             font-size: 14px;
         }
- 
+
         .text-green {
             color: #00e000;
             text-shadow: 0 0 5px rgba(0, 224, 0, 0.3);
         }
- 
+
         .text-pink {
             color: #e000e0;
             text-shadow: 0 0 5px rgba(224, 0, 224, 0.3);
         }
- 
+
         .text-cyan {
     color: #00d0ff;
     text-shadow: 0 0 5px rgba(0, 208, 255, 0.3);
 }
- 
+
         /* Battery & SD Row */
         .sub-info-row {
             display: grid;
@@ -475,7 +475,7 @@ gap:10px;
             gap: 8px;
             width: 100%;
         }
- 
+
         .volt-box {
             display: flex;
             flex-direction: column;
@@ -483,7 +483,7 @@ gap:10px;
             align-items: center;
             padding: 6px;
         }
- 
+
         .volt-display {
             font-size: 26px;
             font-weight: 900;
@@ -492,7 +492,7 @@ gap:10px;
             line-height: 1;
             color: #e0e0e0;
         }
- 
+
         .volt-label-sub {
             font-size: 9px;
             color: #666;
@@ -500,45 +500,45 @@ gap:10px;
             letter-spacing: 1px;
             font-weight: bold;
         }
- 
+
         .sd-box {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 6px;
         }
- 
+
         .sd-header-status {
             display: flex;
             justify-content: space-between;
             font-size: 10px;
             font-weight: bold;
         }
- 
+
         .sd-label {
             color: #8c8c8c;
             display: flex;
             align-items: center;
             gap: 4px;
         }
- 
+
         .sd-bar-container {
             display: flex;
             gap: 2px;
             margin-top: 6px;
             width: 100%;
         }
- 
+
         .sd-bar-chunk {
             height: 8px;
             flex: 1;
             background: #222;
         }
- 
+
         .sd-bar-chunk.active {
             background: #555;
         }
- 
+
         /* === 疑似全画面（走行集中モード）のスタイル === */
         body.fullscreen-mode .btn-group,
         body.fullscreen-mode .bottom-zone {
@@ -553,7 +553,7 @@ gap:10px;
         body.fullscreen-mode .meters-row {
             flex: 2; /* 全画面時にメーターをさらに大きく引き伸ばす */
         }
- 
+
         /* LED点滅用のアニメーション定義 */
         @keyframes blink-fast { 
             0%, 100% { opacity: 0.1; } 
@@ -563,7 +563,7 @@ gap:10px;
             0%, 100% { opacity: 0.2; } 
             50% { opacity: 1; } 
         }
- 
+
         /* 点滅状態を制御するクラス */
         .blink-fast { animation: blink-fast 0.3s infinite; }
         .blink-slow { animation: blink-slow 1.0s infinite; }
@@ -571,44 +571,44 @@ gap:10px;
         
     </style>
 </head>
- 
+
 <body>
- 
+
     <div id="settingsPage"
      style="
      display:none;
      padding:10px;">
- 
+
     <div class="box">
- 
+
         <h2 style="margin-bottom:15px;">
             SETTINGS
         </h2>
- 
+
         <h3 style="color:#ff6a00;">
             SHIFT LAMP
         </h3>
- 
+
 <div style="margin-top:15px;">
- 
+
     <label>
         Enable
     </label>
- 
+
     <input
         type="checkbox"
         id="shiftEnable"
         checked
         style="margin-left:10px;">
- 
+
 </div>
- 
+
 <div style="margin-top:15px;">
- 
+
     <label>
         Start RPM
     </label>
- 
+
     <input
         id="shiftStartRPM"
         type="number"
@@ -616,15 +616,15 @@ gap:10px;
         style="
         width:100%;
         margin-top:5px;">
- 
+
 </div>
- 
+
 <div style="margin-top:15px;">
- 
+
     <label>
         Flash RPM
     </label>
- 
+
     <input
         id="shiftFlashRPM"
         type="number"
@@ -632,21 +632,21 @@ gap:10px;
         style="
         width:100%;
         margin-top:5px;">
- 
+
 </div>
- 
- 
+
+
 <button
     onclick="demoShiftLamp()"
     style="
     width:100%;
     height:45px;
     margin-top:15px;">
- 
+
     DEMO
- 
+
 </button>
- 
+
 <button
     onclick="resetMax()"
     style="
@@ -659,7 +659,7 @@ gap:10px;
     
     RESET MAX
 </button>        
- 
+
 <button
     onclick="saveSettings()"
     style="
@@ -669,91 +669,91 @@ gap:10px;
     background:#00aa00;
     color:white;
     font-weight:bold;">
- 
+
     SAVE
- 
+
 </button>
- 
+
         <hr style="margin:20px 0;">
- 
+
 <h3 style="color:#ffff00;">
     LOGGING
 </h3>
- 
+
 <div style="margin-top:15px;">
- 
+
 <label>
         Circuit Mode
     </label>
- 
+
     <select
         id="circuitMode"
         style="
         width:100%;
         margin-top:5px;
         height:35px;">
- 
+
         <option value="0">
             OFF
         </option>
- 
+
         <option value="1">
             ON
         </option>
- 
+
     </select>
- 
+
 </div>
- 
+
 <div style="margin-top:15px;">
- 
+
     <label>
         Sample Interval(ms)
     </label>
- 
+
     <select
         id="logInterval"
         style="
         width:100%;
         margin-top:5px;
         height:35px;">
- 
+
         <option value="50">
             50 (20Hz)
         </option>
- 
+
         <option value="100" selected>
             100 (10Hz)
         </option>
- 
+
         <option value="200">
             200 (5Hz)
         </option>
- 
+
         <option value="500">
             500 (2Hz)
         </option>
- 
+
         <option value="1000">
             1000 (1Hz)
         </option>
- 
+
     </select>
- 
+
 </div>
- 
+
         <hr style="margin:20px 0;">
- 
+
 <h3 style="color:#00d0ff;">
     BLE
 </h3>
- 
+
 <div style="margin-top:15px;">
- 
+
     <label>
         Update Interval(ms)
     </label>
- 
+
     <input
         id="bleInterval"
         type="number"
@@ -761,24 +761,44 @@ gap:10px;
         style="
         width:100%;
         margin-top:5px;">
- 
+
 </div>
- 
- 
+
+
         <hr style="margin:20px 0;">
- 
+
         <h3 style="color:#00ff00;">
             DEVICE
         </h3>
- 
+
         <div style="margin-top:10px;">
-            Firmware V1.00
+            Firmware<br>
+            <span id="fwVersion" style="font-family:monospace;font-size:18px;font-weight:bold;">--</span>
         </div>
- 
+
         <div style="margin-top:10px;">
-            BLE Connected
+            Build<br>
+            <span id="fwBuild" style="font-family:monospace;font-size:16px;">--</span>
         </div>
- 
+
+        <div style="margin-top:10px;">
+            BLE<br>
+            Connected
+        </div>
+
+        <button
+            onclick="otaUpdate()"
+            style="
+            margin-top:20px;
+            width:100%;
+            height:50px;
+            font-size:18px;
+            font-weight:bold;
+            background:#ff6a00;
+            color:white;">
+            OTA UPDATE
+        </button>
+
         <button
             onclick="closeSettings()"
             style="
@@ -789,12 +809,12 @@ gap:10px;
             font-weight:bold;">
             BACK
         </button>
- 
+
     </div>
 </div>
     
    <div id="mainPage">
- 
+
 <div class="top-bar">
     
         <div class="btn-group">
@@ -803,14 +823,14 @@ gap:10px;
         </div>
         <div class="header-title">
     <span>FZ750 LOGGER</span>
- 
+
     <button id="settingBtn"
             onclick="openSettings()">
         ⚙
     </button>
 </div>
     </div>
- 
+
     <div class="box bank-container">
         <div class="section-label">Bank Angle</div>
         <div class="bank-value-wrap" id="bankText">0</div>
@@ -826,7 +846,7 @@ gap:10px;
             <span class="scale-val">+60°</span>
         </div>
     </div>
- 
+
     <div class="max-bank-row">
         <div class="box max-box" id="resetMaxL">
             <span class="max-title">MAX LEFT</span>
@@ -837,56 +857,56 @@ gap:10px;
             <span class="max-val max-R" style="color: #ff2222;"><span class="dir-R">R</span><span id="maxR">0</span>°</span>
         </div>
     </div>
- 
+
     <div class="meters-row">
- 
+
 <div class="box meter-wrapper" id="resetSpd">
- 
+
     <div class="meter-face">
- 
+
         <img
             src="speed_bg.png"
             class="meter-bg">
- 
+
         <div
             id="speedNeedle"
             class="needle">
         </div>
- 
+
     </div>
- 
+
     <div class="meter-center-text">
         <span class="meter-num" id="speedVal">0</span>
         <span class="meter-max" id="maxSpeedVal">MAX 0</span>
     </div>
- 
+
 </div>
- 
- 
+
+
       <div class="box meter-wrapper" id="resetRpm">
- 
+
     <div class="meter-face">
- 
+
         <img
             src="tach_bg.png"
              class="meter-bg tach-bg">
- 
+
         <div
             id="rpmNeedle"
             class="needle">
         </div>
- 
+
     </div>
- 
+
     <div class="meter-center-text">
         <span class="meter-num" id="rpmVal">0</span>
         <span class="meter-max" id="maxRpmVal">MAX 0</span>
     </div>
- 
+
 </div>
- 
+
     </div>
- 
+
     <div class="bottom-zone">
         <div class="box gps-lap-box">
             <table class="info-table">
@@ -907,7 +927,7 @@ gap:10px;
         <span id="tempVal" class="text-white">--.-</span>℃
     </td>
 </tr>
- 
+
 <tr id="humiRow">
                     <td class="info-icon-label">💧 HUMI</td>
                     <td class="info-value-data text-cyan">
@@ -942,14 +962,14 @@ gap:10px;
       font-size:12px;">
 ●
 </span>
- 
+
 <span id="sdStatus"
       style="
       color:#00ff00;
       font-size:9px;">
 LOGGING
 </span>
- 
+
                     
                 </div>
                <div id="sdValue"
@@ -961,12 +981,12 @@ LOGGING
      margin-bottom:10px;">
 100.0%
 </div>
- 
+
 <div class="sd-bar-container" id="sdBarContainer"></div>
             </div>
         </div>
     </div>
- 
+
     <script>
         const SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
         const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
@@ -978,13 +998,13 @@ let peakRpm = 0;
 let peakSpeed = 0;
         let isCircuitMode = false;
         let resetTimer = null;
- 
+
 // === 通常 ⇔ 全画面の切り替え（iOS・Bluefy安全対策版） ===
     let lastTapTime = 0;
     document.addEventListener('touchend', (e) => {
         const isLogo = e.target.closest('.header-title');
         const isFullscreen = document.body.classList.contains('fullscreen-mode');
- 
+
         // 通常画面の時は「ロゴ（FZ750 LOGGER）」のダブルタップのみ反応
         // 全画面の時は「画面のどこをダブルタップしても」元の画面に戻る
         if (isLogo || isFullscreen) {
@@ -998,56 +1018,56 @@ let peakSpeed = 0;
             lastTapTime = currentTime;
         }
     });
- 
+
     buildBankIndicator();
     buildSDBar();
- 
+
         const ls = localStorage;
- 
+
 if(ls.getItem("shiftEnable") !== null)
 {
     document.getElementById("shiftEnable").checked =
         (ls.getItem("shiftEnable") === "1");
 }
- 
+
 if(ls.getItem("shiftStartRPM"))
 {
     document.getElementById("shiftStartRPM").value =
         ls.getItem("shiftStartRPM");
 }
- 
+
 if(ls.getItem("shiftFlashRPM"))
 {
     document.getElementById("shiftFlashRPM").value =
         ls.getItem("shiftFlashRPM");
 }
- 
+
 if(ls.getItem("bleInterval"))
 {
     document.getElementById("bleInterval").value =
         ls.getItem("bleInterval");
 }
- 
+
 if(ls.getItem("logInterval"))
 {
     document.getElementById("logInterval").value =
         ls.getItem("logInterval");
 }
- 
+
     document.getElementById('maxL').innerText = peakL.toFixed(0);
     document.getElementById('maxR').innerText = peakR.toFixed(0);
     document.getElementById('maxRpmVal').innerText = "MAX " + peakRpm;
     document.getElementById('maxSpeedVal').innerText = "MAX " + peakSpeed.toFixed(0);
- 
+
             
- 
+
        // 【変更】TOUR/CIRCボタン: 表示切替だけでなく、実際にファームウェアの
        // Circuit Modeへ突入/解除する操作もここから行う。
        // CIRC突入時は CIRCUIT_MODE=1 を送信→保存→自らBLE切断することで、
        // ファームウェア側 onDisconnect() の「切断でセッション開始」ロジックを起動する。
        async function toggleMode() {
             const enteringCircuit = !isCircuitMode;
- 
+
             if (enteringCircuit) {
                 if (!bleCharacteristic) {
                     alert("BLE未接続です。先にConnectしてください。");
@@ -1059,14 +1079,14 @@ if(ls.getItem("logInterval"))
                     "以後はRaceChrono等をご利用ください。\n\nよろしいですか？"
                 );
                 if (!ok) return;
- 
+
                 await bleCharacteristic.writeValue(new TextEncoder().encode("CIRCUIT_MODE=1"));
                 await new Promise(resolve => setTimeout(resolve, 100));
                 await bleCharacteristic.writeValue(new TextEncoder().encode("SAVE_SETTINGS"));
                 await new Promise(resolve => setTimeout(resolve, 200));
- 
+
                 localStorage.setItem("circuitMode", "1");
- 
+
                 if (bleDevice && bleDevice.gatt.connected) {
                     bleDevice.gatt.disconnect();
                     // onDisconnected()がConnectボタン等の表示を戻す
@@ -1084,10 +1104,10 @@ if(ls.getItem("logInterval"))
                 }
                 localStorage.setItem("circuitMode", "0");
             }
- 
+
             setDisplayMode(enteringCircuit);
         }
- 
+
         // 【追加】表示切替のみを行う純粋関数（toggleMode()から分離）
         function setDisplayMode(circuit) {
             isCircuitMode = circuit;
@@ -1096,7 +1116,7 @@ if(ls.getItem("logInterval"))
             const humiRow = document.getElementById('humiRow');
             const lapRow = document.getElementById('lapRow');
             const bestRow = document.getElementById('bestRow');
- 
+
             if (isCircuitMode) {
                 btn.innerText = 'CIRC';
                 btn.classList.add('circuit');
@@ -1122,7 +1142,7 @@ if(ls.getItem("logInterval"))
                 const seg = document.createElement('div');
                 seg.className = `seg-clip ${i < 12 ? 'seg-l' : 'seg-r'}`;
                 seg.id = `seg-${i}`;
- 
+
                 if (i == 11 || i == 12)
                     seg.style.backgroundColor = '#00ff00'; // 中央
                 else if (i == 9 || i == 10 || i == 13 || i == 14)
@@ -1133,12 +1153,12 @@ if(ls.getItem("logInterval"))
                     seg.style.backgroundColor = '#ff8800'; // オレンジ
                 else
                     seg.style.backgroundColor = '#ff0000'; // 赤
- 
+
                 seg.style.opacity = '0.25';
                 container.appendChild(seg);
             }
         }
- 
+
         function buildMeterTicks(elementId, count, totalAngle, startAngle) {
             const g = document.getElementById(elementId);
             for (let i = 0; i <= count; i++) {
@@ -1148,93 +1168,93 @@ if(ls.getItem("logInterval"))
                 const y1 = 100 + 80 * Math.sin(rad);
                 const x2 = 100 + 72 * Math.cos(rad);
                 const y2 = 100 + 72 * Math.sin(rad);
- 
+
                 const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
                 line.setAttribute("x1", x1);
                 line.setAttribute("y1", y1);
                 line.setAttribute("x2", x2);
                 line.setAttribute("y2", y2);
- 
+
                 if (elementId === 'rpmTicks' && i >= 10) {
                     line.setAttribute("stroke", "#ff2222");
                 } else {
                     line.setAttribute("stroke", "#444");
                 }
- 
+
                 line.setAttribute("stroke-width", "2");
                 g.appendChild(line);
             }
 }
- 
+
 function buildFZRpmMeter() {
- 
+
     const g = document.getElementById('rpmTicks');
- 
+
     const labels = [
         "0","1","2","3","4","5",
         "6","7","8","9","10","11","12"
     ];
- 
+
     for(let i=0;i<labels.length;i++){
- 
+
         const angle = -225 + (270/(labels.length-1))*i;
         const rad = angle * Math.PI / 180;
- 
+
         const x1 = 100 + 82 * Math.cos(rad);
         const y1 = 100 + 82 * Math.sin(rad);
- 
+
         const x2 = 100 + 68 * Math.cos(rad);
         const y2 = 100 + 68 * Math.sin(rad);
- 
+
         const line = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "line"
         );
- 
+
         line.setAttribute("x1",x1);
         line.setAttribute("y1",y1);
         line.setAttribute("x2",x2);
         line.setAttribute("y2",y2);
- 
+
         line.setAttribute(
             "stroke",
             i >= 11 ? "#ff3300" : "#dddddd"
         );
- 
+
         line.setAttribute("stroke-width","4");
- 
+
         g.appendChild(line);
- 
+
 const tx = 100 + 74 * Math.cos(rad);
 const ty = 100 + 74 * Math.sin(rad);
- 
+
         const text = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "text"
         );
- 
+
         text.setAttribute("x",tx);
         text.setAttribute("y",ty);
- 
+
         text.setAttribute("fill","#ffffff");
- 
+
         text.setAttribute("font-size","28");
- 
+
         text.setAttribute("font-weight","900");
- 
+
         text.setAttribute("text-anchor","middle");
- 
+
         text.setAttribute("dominant-baseline","middle");
- 
+
         text.textContent = labels[i];
- 
+
         g.appendChild(text);
     }
 }
- 
+
         function buildSDBar() {
         }
- 
+
         async function connectBLE() {
             try {
                 const device = await navigator.bluetooth.requestDevice({
@@ -1249,9 +1269,9 @@ optionalServices: [SERVICE_UUID]
         CHARACTERISTIC_UUID
     );
 await bleCharacteristic.startNotifications();
- 
+
 bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChanged);
- 
+
                 document.getElementById('connectBtn').innerText = "CONNECTED";
                 document.getElementById('connectBtn').classList.add('connected');
                 device.addEventListener('gattserverdisconnected', onDisconnected);
@@ -1259,44 +1279,51 @@ bleCharacteristic.addEventListener('characteristicvaluechanged', handleDataChang
                 console.log("BLE Connection Error: " + error);
             }
         }
- 
+
         function handleDataChanged(event) {
             let decoder = new TextDecoder('utf-8');
             let strData = decoder.decode(event.target.value);
- 
+
             if(strData.startsWith("SETTINGS,"))
 {
     let s = strData.split(",");
- 
+
     document.getElementById("shiftEnable").checked =
         (s[1] == "1");
- 
+
     document.getElementById("shiftStartRPM").value =
         s[2];
- 
+
     document.getElementById("shiftFlashRPM").value =
         s[3];
- 
+
 document.getElementById("bleInterval").value =
     s[4];
- 
+
 document.getElementById("logInterval").value =
     s[5];
- 
+
     document.getElementById("circuitMode").value =
     s[6];
- 
+
     localStorage.setItem("shiftEnable", s[1]);
 localStorage.setItem("shiftStartRPM", s[2]);
 localStorage.setItem("shiftFlashRPM", s[3]);
 localStorage.setItem("bleInterval", s[4]);
 localStorage.setItem("logInterval", s[5]);
- 
+
+// 【追加】ファームウェアVersion/Build日時（新ファームは s[7]/s[8] を送ってくる。
+// 旧ファームには存在しないため、その場合は表示を変えない＝後方互換）
+if (s.length >= 9) {
+    document.getElementById("fwVersion").innerText = s[7];
+    document.getElementById("fwBuild").innerText = s[8];
+}
+
 return;
 }
             
             let data = strData.split(',');
- 
+
             if (data.length >= 16) {
                 let bank = parseFloat(data[0]);
                 let rpm = parseInt(data[3]);
@@ -1312,15 +1339,15 @@ return;
                 let sdStatusOK = parseInt(data[13]);
                 let gpsFix = parseInt(data[14]);
                 let satCount = parseInt(data[15]);
- 
+
                 peakL = parseFloat(data[1]);
                 peakR = parseFloat(data[2]);
- 
- 
- 
+
+
+
                 if (isNaN(bank)) return;
- 
- 
+
+
                 // UI更新
                 if (Math.abs(bank) < 1.5) {
                     document.getElementById('bankText').innerHTML = `0<span class="bank-direction" style="color:#666;">°</span>`;
@@ -1329,9 +1356,9 @@ return;
                 } else {
                     document.getElementById('bankText').innerHTML = `${Math.abs(bank).toFixed(0)}<span class="bank-direction dir-R">R</span>`;
                 }
- 
+
                 document.getElementById('cursor').style.left = `calc(${Math.max(0, Math.min(100, 50 + (bank * (50 / 60))))}% - 4px)`;
- 
+
                 let targetIndex = Math.max(0, Math.min(23, Math.floor(12 + (bank * (12 / 60)))));
                 for (let i = 0; i < 24; i++) {
                     const seg = document.getElementById(`seg-${i}`);
@@ -1339,7 +1366,7 @@ return;
                     else if (bank > 0 && i >= 12 && i <= targetIndex) seg.style.opacity = '1.0';
                     else seg.style.opacity = '0.25';
                 }
- 
+
               // 全てのMAX値と現在値をすっきり描画
                 document.getElementById('maxL').innerText = peakL.toFixed(0);
                 document.getElementById('maxR').innerText = peakR.toFixed(0);
@@ -1348,56 +1375,56 @@ return;
                 
                 document.getElementById('rpmVal').innerText = rpm;
                 document.getElementById('speedVal').innerText = speed.toFixed(0);
- 
+
                 
                 document.getElementById('voltVal').innerText = volt.toFixed(1);
 document.getElementById('tempVal').innerText =
     temp.toFixed(1);
- 
+
 document.getElementById('humiVal').innerText =
     humi.toFixed(0);
- 
+
                 let fixText;
- 
+
 switch (gpsFix)
 {
     case 3:
         fixText = "3D FIX";
         break;
- 
+
     case 2:
         fixText = "2D FIX";
         break;
- 
+
     default:
         fixText = "NO FIX";
         break;
 }
- 
+
 const gpsFixEl = document.getElementById("gpsFix");
- 
+
 gpsFixEl.innerText = fixText;
- 
+
 switch(gpsFix)
 {
     case 3:
         gpsFixEl.style.color = "#00ff00";   // 緑
         break;
- 
+
     case 2:
         gpsFixEl.style.color = "#ffff00";   // 黄
         break;
- 
+
     default:
         gpsFixEl.style.color = "#ff3030";   // 赤
         break;
 }
- 
+
 document.getElementById("satCount").innerText = satCount;
 document.getElementById("satCount").innerText = satCount;
- 
+
 const tempEl = document.getElementById('tempVal');
- 
+
 if(temp <= 15)
 {
     tempEl.style.color = '#00d0ff';
@@ -1410,11 +1437,11 @@ else
 {
     tempEl.style.color = '#ffffff';
 }
- 
+
                
                 
 let rpmAngle;
- 
+
 if (rpm <= 3000)
 {
     rpmAngle =
@@ -1430,12 +1457,12 @@ else
     rpmAngle =
         2 + ((rpm - 6000) / 6000.0) * 138;
 }
- 
+
 document.getElementById('rpmNeedle').style.transform =
     `translateX(-50%) rotate(${rpmAngle}deg)`;
                 
 let speedAngle;
- 
+
 if (speed <= 60)
 {
     speedAngle =
@@ -1451,27 +1478,27 @@ else
     speedAngle =
         2 + ((speed - 100) / 140.0) * 134;
 }
- 
+
 document.getElementById('speedNeedle').style.transform =
     `translateX(-50%) rotate(${speedAngle}deg)`;
- 
+
 let barColor = "#00ff00";
- 
+
 if(freePercent < 70)
 {
     barColor = "#ffff00";
 }
- 
+
 if(freePercent < 30)
 {
     barColor = "#ff0000";
 }
- 
+
 const sdValue = document.getElementById("sdValue");
- 
+
 sdValue.innerHTML =
     freePercent.toFixed(1) + "<span style='font-size:15px;'> %</span>";
- 
+
 if(freePercent >= 70)
 {
     sdValue.style.color = "#00ff00";
@@ -1484,7 +1511,7 @@ else
 {
     sdValue.style.color = "#ff3030";
 }
- 
+
                                
 document.getElementById('sdBarContainer').innerHTML =
 `
@@ -1498,37 +1525,37 @@ transition:0.3s;">
 `;
 const led = document.getElementById('sdLed');
 const status = document.getElementById('sdStatus');
- 
+
 if(sdStatusOK)
 {
     status.innerText = "OK";
- 
+
     status.style.color = "#00ff00";
- 
+
     led.style.color = "#00ff00";
- 
+
     led.className = "blink-slow";
 }
 else
 {
     status.innerText = "ERROR";
- 
+
     status.style.color = "#ff0000";
- 
+
     led.style.color = "#ff0000";
- 
+
     led.className = "blink-fast";
 }
- 
+
     } // handleDataChanged の閉じブラケット
 }
- 
+
 async function openSettings()
 {
     document.getElementById("mainPage").style.display = "none";
- 
+
     document.getElementById("settingsPage").style.display = "block";
- 
+
     if(bleCharacteristic)
     {
         await bleCharacteristic.writeValue(
@@ -1546,14 +1573,14 @@ async function demoShiftLamp()
         alert("BLE未接続");
         return;
     }
- 
+
     await bleCharacteristic.writeValue(
         new TextEncoder().encode(
             "SHIFT_DEMO"
         )
     );
 }
- 
+
         async function resetMax()
 {
     if(!bleCharacteristic)
@@ -1561,18 +1588,18 @@ async function demoShiftLamp()
         alert("BLE未接続");
         return;
     }
- 
+
     await bleCharacteristic.writeValue(
         new TextEncoder().encode(
             "RESET_MAX"
         )
     );
- 
+
     peakL = 0;
 peakR = 0;
 peakRpm = 0;
 peakSpeed = 0;
- 
+
 document.getElementById('maxL').innerText = "0";
 document.getElementById('maxR').innerText = "0";
 document.getElementById('maxRpmVal').innerText = "MAX 0";
@@ -1580,7 +1607,7 @@ document.getElementById('maxSpeedVal').innerText = "MAX 0";
     
     alert("MAX RESET");
 }
- 
+
 async function saveSettings()
 {
     if(!bleCharacteristic)
@@ -1588,53 +1615,53 @@ async function saveSettings()
         alert("BLE未接続");
         return;
     }
- 
+
     const shiftEnable =
         document.getElementById("shiftEnable").checked;
     
     const shiftStartRPM =
     document.getElementById("shiftStartRPM").value;
- 
+
 const shiftFlashRPM =
     document.getElementById("shiftFlashRPM").value;
- 
+
     const bleInterval =
     document.getElementById("bleInterval").value;
- 
+
     const logInterval =
     document.getElementById("logInterval").value;
- 
+
     const circuitMode =
     document.getElementById("circuitMode").value;
- 
+
 const cmds = [
- 
+
     "SHIFT_ENABLE=" +
     (shiftEnable ? "1" : "0"),
- 
+
     "SHIFT_START=" +
     shiftStartRPM,
- 
+
     "SHIFT_FLASH=" +
     shiftFlashRPM,
- 
+
     "BLE_INTERVAL=" +
     bleInterval,
- 
+
     "LOG_INTERVAL=" +
     logInterval,
- 
+
     "CIRCUIT_MODE=" +
     circuitMode
- 
+
 ];
- 
+
 for(const cmd of cmds)
 {
     await bleCharacteristic.writeValue(
         new TextEncoder().encode(cmd)
     );
- 
+
     await new Promise(
         resolve => setTimeout(resolve, 100)
     );
@@ -1644,49 +1671,97 @@ await bleCharacteristic.writeValue(
         "SAVE_SETTINGS"
     )
 );
- 
+
     localStorage.setItem(
     "shiftEnable",
     shiftEnable ? "1" : "0"
 );
- 
+
 localStorage.setItem(
     "shiftStartRPM",
     shiftStartRPM
 );
- 
+
 localStorage.setItem(
     "shiftFlashRPM",
     shiftFlashRPM
 );
- 
+
 localStorage.setItem(
     "bleInterval",
     bleInterval
 );
- 
+
 localStorage.setItem(
     "logInterval",
     logInterval
 );
- 
+
     localStorage.setItem(
     "circuitMode",
     circuitMode
 );
- 
+
     // 【追加】設定画面のCircuit Mode欄からONにした場合も、
     // メイン画面のTOUR/CIRC表示と食い違わないよう同期する
     setDisplayMode(circuitMode === "1");
     
 alert("設定送信完了");
- 
+
 }
- 
+
+// 【追加】OTAアップデートモードへの切り替え
+// CIRCUITモード突入と同じパターン: コマンド送信 → 保存 → 自らBLE切断
+// → ファームウェア側 onDisconnect() でOTAモードへ移行する
+async function otaUpdate()
+{
+    if(!bleCharacteristic)
+    {
+        alert("BLE未接続");
+        return;
+    }
+
+    const ok = confirm(
+        "Firmware Update\n\n" +
+        "OTA Modeへ切り替えます。\n" +
+        "更新中は電源を切らないでください。\n\n" +
+        "よろしいですか？"
+    );
+    if(!ok) return;
+
+    await bleCharacteristic.writeValue(
+        new TextEncoder().encode("OTA_MODE=1")
+    );
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    await bleCharacteristic.writeValue(
+        new TextEncoder().encode("SAVE_SETTINGS")
+    );
+
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    if (bleDevice && bleDevice.gatt.connected)
+    {
+        bleDevice.gatt.disconnect();
+    }
+
+    alert(
+        "OTA Modeへ移行しました。\n\n" +
+        "1. PCのWi-Fiを「FZ750_OTA」へ接続\n" +
+        "   （パスワード: fz750logger）\n" +
+        "2. Arduino IDEの ツール → ポート →\n" +
+        "   Network ports から選択\n" +
+        "3. 書き込みを実行\n\n" +
+        "60秒間接続が無い場合は\n" +
+        "自動で通常モードへ戻ります。"
+    );
+}
+
 function closeSettings()
 {
     document.getElementById("settingsPage").style.display = "none";
- 
+
     document.getElementById("mainPage").style.display = "block";
 }
         function onDisconnected() {

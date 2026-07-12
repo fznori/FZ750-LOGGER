@@ -800,6 +800,34 @@ gap:10px;
         </button>
 
         <button
+            onclick="camServiceMode()"
+            style="
+            margin-top:12px;
+            width:100%;
+            height:50px;
+            font-size:16px;
+            font-weight:bold;
+            background:#111;
+            border:2px solid #ff6a00;
+            color:#ff6a00;">
+            CAM SERVICE MODE
+        </button>
+
+        <button
+            onclick="camEventTest()"
+            style="
+            margin-top:12px;
+            width:100%;
+            height:45px;
+            font-size:14px;
+            font-weight:bold;
+            background:#111;
+            border:1px solid #555;
+            color:#ccc;">
+            CAM EVENT TEST
+        </button>
+
+        <button
             onclick="closeSettings()"
             style="
             margin-top:30px;
@@ -1755,6 +1783,58 @@ async function otaUpdate()
         "60秒間接続が無い場合は\n" +
         "自動で通常モードへ戻ります。"
     );
+}
+
+// 【追加】CAM側をサービスモード(Wi-Fi AP+OTA+ダウンロード画面)へ移行させる。
+// ケースに入れて物理BOOTボタンが押せない状態でも、これで操作できる。
+async function camServiceMode()
+{
+    if(!bleCharacteristic)
+    {
+        alert("BLE未接続");
+        return;
+    }
+
+    const ok = confirm(
+        "CAM Service Mode\n\n" +
+        "CAM側をWi-Fiダウンロード/OTAモードへ切り替えます。\n" +
+        "CAM側の録画が一時停止します。\n\n" +
+        "よろしいですか？"
+    );
+    if(!ok) return;
+
+    await bleCharacteristic.writeValue(
+        new TextEncoder().encode("CAM_SERVICE_MODE=1")
+    );
+
+    alert(
+        "CAMへservice mode要求を送信しました。\n\n" +
+        "1. PCのWi-Fiを「FZ750_CAM」へ接続\n" +
+        "   （パスワード: fz750camera）\n" +
+        "2. ブラウザで http://192.168.4.1 を開く\n" +
+        "   （ファイルダウンロード）\n" +
+        "3. Arduino IDEでファーム更新する場合は\n" +
+        "   ツール → ポート → Network ports から\n" +
+        "   fz750cam を選択\n\n" +
+        "※CAMからの応答は受け取れないため、\n" +
+        "　実際に切り替わったかはWi-Fi一覧でご確認ください。"
+    );
+}
+
+// 【追加】CAM側のイベント録画保護を、実走前に机上でテストする
+async function camEventTest()
+{
+    if(!bleCharacteristic)
+    {
+        alert("BLE未接続");
+        return;
+    }
+
+    await bleCharacteristic.writeValue(
+        new TextEncoder().encode("CAM_TEST")
+    );
+
+    alert("CAMへテストイベントを送信しました");
 }
 
 function closeSettings()
